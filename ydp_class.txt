@@ -1,0 +1,97 @@
+*&---------------------------------------------------------------------*
+*& Include          YDP_SD_MANAGEMENT_CLASS
+*&---------------------------------------------------------------------*
+CLASS lcl_handler DEFINITION.
+  PUBLIC SECTION.
+
+  METHODs : custom_toolbar for EVENT toolbar of cl_gui_alv_grid
+            IMPORTING
+                     e_object
+                     e_interactive.
+
+  METHODS : custom_toolbar_for_items for EVENT toolbar of cl_gui_alv_grid
+            IMPORTING
+                     e_object
+                     e_interactive.
+
+  METHODs : handle_user_command FOR EVENT user_command of cl_gui_alv_grid
+            IMPORTING
+                      e_ucomm.
+
+  METHODS : user_command_for_sales_order for EVENT user_command of cl_gui_alv_grid
+            IMPORTING
+                      e_ucomm.
+ENDCLASS.
+
+class lcl_handler IMPLEMENTATION.
+
+
+  METHOD : custom_toolbar.
+    data:
+      ls_button type stb_button.
+
+    ls_button-butn_type = 0. "Button
+    ls_button-function = 'FURTHER_DETAILS'.
+*    ls_button-icon = '@48@'. "Import icon
+    ls_button-text = 'Further Details'.
+
+    INSERT ls_button into e_object->mt_toolbar INDEX 1.
+    ENDMETHOD.
+
+    METHOD : custom_toolbar_for_items.
+      data:
+      ls_button type stb_button.
+
+    ls_button-butn_type = 0. "Button
+    ls_button-function = 'ADD'.
+    ls_button-icon = 'ICON_ADD_ROW'. "Import icon
+    ls_button-text = 'Add'.
+
+    INSERT ls_button into e_object->mt_toolbar INDEX 1.
+
+    ls_button-butn_type = 0. "Button
+    ls_button-function = 'DEL'.
+*    ls_button-icon = '@48@'. "Import icon
+    ls_button-text = 'Delete'.
+
+    INSERT ls_button into e_object->mt_toolbar INDEX 2.
+
+    ls_button-butn_type = 0. "Button
+    ls_button-function = 'CALCULATE'.
+*    ls_button-icon = '@48@'. "Import icon
+    ls_button-text = 'Calculate'.
+
+    INSERT ls_button into e_object->mt_toolbar INDEX 3.
+
+    ls_button-butn_type = 0. "Button
+    ls_button-function = 'INSERT'.
+*    ls_button-icon = '@48@'. "Import icon
+    ls_button-text = 'Insert'.
+
+    INSERT ls_button into e_object->mt_toolbar INDEX 3.
+
+    ENDMETHOD.
+
+    METHOD handle_user_command.
+
+    IF e_ucomm EQ 'FURTHER_DETAILS'.
+
+      PERFORM fetch_row_data.
+
+    ENDIF.
+    ENDMETHOD.
+
+    METHOD user_command_for_sales_order.
+
+      IF e_ucomm eq 'ADD'.
+        PERFORM add_lines.
+      ELSEIF e_ucomm eq 'DEL'.
+        PERFORM delete_lines.
+      ELSEIF e_ucomm eq 'CALCULATE'.
+        PERFORM calculate_price.
+      ELSEIF e_ucomm eq 'INSERT'.
+        PERFORM insert_into_database.
+      ENDIF.
+
+      ENDMETHOD.
+ENDCLASS.

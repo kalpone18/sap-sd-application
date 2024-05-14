@@ -1,0 +1,327 @@
+*----------------------------------------------------------------------*
+***INCLUDE YDP_SD_MANAGEMENT_USER_COMMI01.
+*----------------------------------------------------------------------*
+*&---------------------------------------------------------------------*
+*&      Module  USER_COMMAND_1000  INPUT
+*&---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+MODULE user_command_1000 INPUT.
+  CASE sy-ucomm.
+    WHEN 'EXIT'.
+      LEAVE TO SCREEN 0.
+    WHEN 'BACK'.
+*      LEAVE TO SCREEN 1008.
+      CALL SCREEN 1008.
+    WHEN 'CANCEL'.
+      LEAVE TO SCREEN 0.
+  ENDCASE.
+ENDMODULE.
+*&---------------------------------------------------------------------*
+*&      Module  USER_COMMAND_1001  INPUT
+*&---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+MODULE user_command_1001 INPUT.
+  IF lo_obj_prod IS NOT BOUND.
+    CREATE OBJECT lo_obj_prod.
+  ENDIF.
+
+  CASE sy-ucomm.
+    WHEN 'CREATE'.
+      CALL METHOD lo_obj_prod->insert
+        EXPORTING
+          is_product = ydp_product.
+    WHEN 'MODIFY'.
+      CALL METHOD lo_obj_prod->modify
+        EXPORTING
+          is_product = ydp_product.
+    WHEN 'DELETE'.
+      CALL METHOD lo_obj_prod->delete
+        EXPORTING
+          is_product = ydp_product.
+    WHEN 'DISPLAY' OR 'ENTER'.
+      lo_obj_prod->display(
+        EXPORTING
+          is_prod_id    = ydp_product-prod_id                 " Product id
+        IMPORTING
+          es_product    =    ydp_product              " Product table
+          es_prod_stock = ydp_prod_stock
+      ).
+    WHEN OTHERS.
+  ENDCASE.
+
+*    LOOP AT SCREEN.
+*  IF screen-group1 = 'YDP_PRODUCT-PROD_ID'.
+*    MODIFY SCREEN.
+*    CLEAR screen-input.
+*  ENDIF.
+*ENDLOOP.
+
+ENDMODULE.
+*&---------------------------------------------------------------------*
+*&      Module  USER_COMMAND_1002  INPUT
+*&---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+MODULE user_command_1002 INPUT.
+  IF lo_obj_bp IS NOT BOUND.
+    CREATE OBJECT lo_obj_bp.
+  ENDIF.
+
+  CASE sy-ucomm.
+    WHEN 'CREATE'.
+      lo_obj_bp->insert( is_bp_table = ydp_bp ).
+    WHEN 'MODIFY'.
+      lo_obj_bp->modify( is_bp_table = ydp_bp ).
+    WHEN 'DELETE'.
+      lo_obj_bp->delete( is_bp_table = ydp_bp ).
+    WHEN 'DISPLAY' OR 'ENTER'.
+      lo_obj_bp->display(
+        EXPORTING
+          is_bp_id    =   ydp_bp-bp_id               " Business partner id
+        IMPORTING
+          es_bp_table =     ydp_bp             " Business partner
+      ).
+    WHEN OTHERS.
+  ENDCASE.
+ENDMODULE.
+*&---------------------------------------------------------------------*
+*&      Module  USER_COMMAND_1003  INPUT
+*&---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+MODULE user_command_1003 INPUT.
+
+  PERFORM display.
+
+ENDMODULE.
+*&---------------------------------------------------------------------*
+*&      Module  USER_COMMAND_1004  INPUT
+*&---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+MODULE user_command_1004 INPUT.
+
+  IF lv_table_name IS NOT INITIAL.
+
+
+    PERFORM get_table_name_from_key USING lv_table_name CHANGING lv_selected_table.
+*  IF sy-ucomm eq 'FC_FORMAT'.
+*    CLEAR lt_prod.
+*  ENDIF.
+
+    "if table name gets changed then Unassign the field symbol
+    lv_previous_table = lv_current_table.
+    lv_current_table = lv_selected_table.
+
+    IF lv_current_table NE lv_previous_table OR sy-ucomm EQ 'FC_FORMAT'.
+      IF lo_mu_alv_grid IS BOUND.
+        lo_mu_alv_grid->free( ).
+      ENDIF.
+
+      IF lo_mu_cust_container IS BOUND.
+        lo_mu_cust_container->free( ).
+      ENDIF.
+
+      CLEAR: lo_mu_alv_grid, lo_mu_cust_container.
+
+*      UNASSIGN <lt_table>.
+
+    ENDIF.
+
+          UNASSIGN <lt_table>.
+    IF <lt_table> IS NOT ASSIGNED.
+
+
+      PERFORM split_file.
+
+      IF radio_xlsx ='X'.
+        IF  lv_format EQ 'XLSX'.
+          PERFORM upload_data.
+          PERFORM create_internal_table USING lv_selected_table.
+          PERFORM adjust_data.
+
+        ELSE.
+          MESSAGE 'YOUR FILE FORMAT IS WRONG.' TYPE 'S' DISPLAY LIKE 'E'.
+        ENDIF.
+      ELSEIF radio_csv ='X'.
+        IF  lv_format EQ 'CSV'.
+          PERFORM create_internal_table USING lv_selected_table.
+          PERFORM upload_csv_data.
+        ELSE.
+          MESSAGE 'YOUR FILE FORMAT IS WRONG.' TYPE 'S' DISPLAY LIKE 'E'.
+        ENDIF.
+      ENDIF.
+
+*    PERFORM compare_files_and_components.
+
+    ENDIF.
+
+*  PERFORM upload_data.
+*
+*  PERFORM adjust_data.
+*
+*  PERFORM upload_csv_data.
+
+    PERFORM check_changed_data.
+
+    PERFORM upload_data_into_database.
+
+  ENDIF.
+
+
+ENDMODULE.
+*&---------------------------------------------------------------------*
+*&      Module  USER_COMMAND_1005  INPUT
+*&---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+MODULE user_command_1005 INPUT.
+
+ENDMODULE.
+
+*&---------------------------------------------------------------------*
+*&      Module  USER_COMMAND_1006  INPUT
+*&---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+MODULE user_command_1006 INPUT.
+
+*  PERFORM display.
+
+ENDMODULE.
+*&---------------------------------------------------------------------*
+*&      Module  USER_COMMAND_1007  INPUT
+*&---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+MODULE user_command_1007 INPUT.
+
+  IF sy-ucomm EQ 'FC_SALES_BP'.
+
+    PERFORM free_elements.
+
+    PERFORM fetch_sales_per_bp.
+
+
+  ELSEIF sy-ucomm EQ 'FC_SALES_PRODUCT'.
+
+    PERFORM free_elements.
+
+    PERFORM fetch_sales_per_product.
+
+  ENDIF.
+
+
+ENDMODULE.
+*&---------------------------------------------------------------------*
+*&      Module  USER_COMMAND_1008  INPUT
+*&---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+MODULE user_command_1008 INPUT.
+  CASE sy-ucomm.
+    WHEN 'EXIT'.
+      LEAVE TO SCREEN 0.
+    WHEN 'BACK'.
+      LEAVE TO SCREEN 0.
+    WHEN 'CANCEL'.
+      LEAVE TO SCREEN 0.
+  ENDCASE.
+
+*CASE  sy-ucomm.
+*  WHEN 'ENTER'.
+*    DATA: lv_username TYPE char15,
+*          lv_password TYPE char15.
+**  WHEN .
+*  WHEN OTHERS.
+*ENDCASE.
+ENDMODULE.
+*&---------------------------------------------------------------------*
+*&      Module  CHECK_AUTHORIZATION  INPUT
+*&---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+MODULE check_authorization INPUT.
+  SELECT SINGLE @abap_true FROM ydp_users INTO @DATA(lv_exist) WHERE user_id EQ @ydp_users-user_id AND password EQ @ydp_users-password.
+  IF sy-subrc EQ 0.
+    SELECT * FROM ydp_role_assign INTO TABLE @lt_roles WHERE user_id = @ydp_users-user_id.
+    CALL SCREEN 1000.
+  ELSE.
+    MESSAGE 'Invalid Password or Username' TYPE 'S' DISPLAY LIKE 'E'.
+
+    RETURN.
+  ENDIF.
+ENDMODULE.
+*&---------------------------------------------------------------------*
+*&      Module  USER_COMMAND_1009  INPUT
+*&---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+MODULE user_command_1009 INPUT.
+  IF sy-ucomm EQ 'FC_USER'.
+    CALL SCREEN 100 STARTING AT 10 08
+                    ENDING AT 70  15.
+  ENDIF.
+
+  PERFORM check_change_data.
+ENDMODULE.
+*&---------------------------------------------------------------------*
+*&      Module  USER_COMMAND_0100  INPUT
+*&---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+MODULE user_command_0100 INPUT.
+  CASE sy-ucomm.
+    WHEN 'CANCEL'.
+      LEAVE TO SCREEN 0.
+*  WHEN .
+    WHEN OTHERS.
+  ENDCASE.
+ENDMODULE.
+*&---------------------------------------------------------------------*
+*&      Module  CREATE_USER  INPUT
+*&---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+MODULE create_user INPUT.
+  DATA : ls_role_assign  TYPE ydp_role_assign.
+  DATA : ls_user  TYPE ydp_users.
+  IF sy-ucomm EQ 'FC_CREATE'.
+
+
+    SELECT * from ydp_role INTO TABLE @DATA(lt_role_all).
+
+    LOOP AT lt_role_all INTO DATA(ls_role_all).
+      ls_role_assign-role = ls_role_all-role.
+      ls_role_assign-user_id = lv_user_id.
+      ls_role_assign-active = abap_false.
+      APPEND ls_role_assign TO lt_roles_all.
+      CLEAR : ls_role_assign.
+    ENDLOOP.
+
+    IF lv_user_id IS NOT INITIAL AND  lv_password IS NOT INITIAL.
+      ls_user-user_id = lv_user_id.
+      ls_user-password = lv_password.
+
+      MODIFY ydp_users FROM ls_user.
+      IF sy-subrc EQ 0.
+      MODIFY ydp_role_assign FROM TABLE lt_roles_all.
+      IF sy-subrc EQ 0.
+        MESSAGE 'User Created' TYPE 'S'.
+      ELSE.
+        ROLLBACK WORK.
+        MESSAGE 'User Cannot be created' TYPE 'S' DISPLAY LIKE 'E'.
+      ENDIF.
+
+      ELSE.
+        MESSAGE 'User Cannot be created' TYPE 'S' DISPLAY LIKE 'E'.
+      ENDIF.
+    ELSE.
+      MESSAGE 'Please enter all the values' TYPE 'S' DISPLAY LIKE 'E'.
+    ENDIF.
+
+      CLEAR : lv_user_id, lv_password.
+ENDIF.
+ENDMODULE.

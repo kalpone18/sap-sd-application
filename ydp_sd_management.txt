@@ -1,0 +1,16 @@
+*&---------------------------------------------------------------------*
+*& Modulpool YDP_SD_MANAGEMENT
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+PROGRAM YDP_SD_MANAGEMENT.
+
+INCLUDE ydp_sd_management_top.
+
+INCLUDE ydp_sd_management_class.
+
+INCLUDE ydP_sd_management_form.
+
+INCLUDE ydp_sd_management_user_commi01.
+
+INCLUDE ydp_sd_management_status_10o01.

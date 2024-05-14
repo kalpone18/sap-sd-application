@@ -1,0 +1,639 @@
+*----------------------------------------------------------------------*
+***INCLUDE YDP_SD_MANAGEMENT_STATUS_10O01.
+*----------------------------------------------------------------------*
+*&---------------------------------------------------------------------*
+*& Module STATUS_1000 OUTPUT
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+MODULE status_1000 OUTPUT.
+  DATA: fcode_so type table of sy-ucomm.
+  DATA: fcode_mu type table of sy-ucomm.
+  DATA: fcodu_analytics TYPE TABLE of sy-ucomm.
+  DATA : fcode_administration TYPE TABLE of sy-ucomm.
+  DATA: lv_approve TYPE xfeld.
+
+  SET PF-STATUS 'YDP_SD_STATUS'.
+  SET TITLEBAR 'YDP_SD_TITLE'.
+
+  CASE sy-ucomm.
+    WHEN 'FC_PROD'.
+      PERFORM check_roles USING 'PRD' CHANGING lv_approve.
+      IF lv_approve is not INITIAL.
+      lv_subsc = '1001'.
+      tabctrl_sd-activetab = 'FC_PROD'.
+      SET PF-STATUS 'YDP_SD_STATUS' EXCLUDING 'UPLOAD'.
+      ELSE.
+        MESSAGE 'You do not have authorization for using these functionality' TYPE 'S' DISPLAY LIKE 'E'.
+      ENDIF.
+    WHEN 'FC_BP'.
+      PERFORM check_roles USING 'BP' CHANGING lv_approve.
+      IF lv_approve is NOT INITIAL.
+      lv_subsc = '1002'.
+      tabctrl_sd-activetab = 'FC_BP'.
+      SET PF-STATUS 'YDP_SD_STATUS' EXCLUDING 'UPLOAD'.
+      ELSE.
+        MESSAGE 'You do not have authorization for using these functionality' TYPE 'S' DISPLAY LIKE 'E'.
+      ENDIF.
+    WHEN 'FC_SO'.
+      PERFORM check_roles USING 'SLS' CHANGING lv_approve.
+      IF lv_approve is NOT INITIAL.
+      lv_subsc = '1003'.
+      tabctrl_sd-activetab = 'FC_SO'.
+      PERFORM prepare_exclude_toolbar USING 'CREATE' CHANGING fcode_so.
+      PERFORM prepare_exclude_toolbar USING 'MODIFY' CHANGING fcode_so.
+      PERFORM PREPARE_EXCLUDE_TOOLBAR USING 'DELETE' CHANGING fcode_so.
+      PERFORM PREPARE_EXCLUDE_TOOLBAR USING 'UPLOAD' CHANGING fcode_so.
+      SET PF-STATUS 'YDP_SD_STATUS' EXCLUDING fcode_so.
+      ELSE.
+         MESSAGE 'You do not have authorization for using these functionality' TYPE 'S' DISPLAY LIKE 'E'.
+      ENDIF.
+    WHEN 'FC_MU'.
+      PERFORM check_roles USING 'MU' CHANGING lv_approve.
+      IF lv_approve is NOT INITIAL.
+      lv_subsc = '1004'.
+      tabctrl_sd-activetab = 'FC_MU'.
+      PERFORM prepare_exclude_toolbar USING 'CREATE' CHANGING fcode_mu.
+      PERFORM prepare_exclude_toolbar USING 'MODIFY' CHANGING fcode_mu.
+      PERFORM PREPARE_EXCLUDE_TOOLBAR USING 'DELETE' CHANGING fcode_mu.
+      PERFORM PREPARE_EXCLUDE_TOOLBAR USING 'DISPLAY' CHANGING fcode_mu.
+      SET PF-STATUS 'YDP_SD_STATUS' EXCLUDING fcode_mu.
+      ELSE.
+        MESSAGE 'You do not have authorization for using these functionality' TYPE 'S' DISPLAY LIKE 'E'.
+      ENDIF.
+    WHEN 'FC_ANALYTICS'.
+      PERFORM check_roles USING 'ANALYTICS' CHANGING lv_approve.
+      IF lv_approve is NOT INITIAL.
+        lv_subsc = '1007'.
+      tabctrl_sd-activetab = 'FC_ANALYTICS'.
+      PERFORM prepare_exclude_toolbar USING 'CREATE' CHANGING fcodu_analytics.
+      PERFORM prepare_exclude_toolbar USING 'MODIFY' CHANGING fcodu_analytics.
+      PERFORM PREPARE_EXCLUDE_TOOLBAR USING 'DELETE' CHANGING fcodu_analytics.
+      PERFORM PREPARE_EXCLUDE_TOOLBAR USING 'DISPLAY' CHANGING fcodu_analytics.
+      PERFORM PREPARE_EXCLUDE_TOOLBAR USING 'UPLOAD' CHANGING fcodu_analytics.
+      SET PF-STATUS 'YDP_SD_STATUS' EXCLUDING fcodu_analytics.
+      ELSE.
+        MESSAGE 'You do not have authorization for using these functionality' TYPE 'S' DISPLAY LIKE 'E'.
+      ENDIF.
+
+    WHEN 'FC_ADMIN'.
+      PERFORM check_roles USING 'ADMIN' CHANGING lv_approve.
+      IF lv_approve is NOT INITIAL.
+      lv_subsc = '1009'.
+      tabctrl_sd-activetab = 'FC_ADMIN'.
+      PERFORM prepare_exclude_toolbar USING 'CREATE' CHANGING fcode_administration.
+      PERFORM prepare_exclude_toolbar USING 'MODIFY' CHANGING fcode_administration.
+      PERFORM PREPARE_EXCLUDE_TOOLBAR USING 'DELETE' CHANGING fcode_administration.
+      PERFORM PREPARE_EXCLUDE_TOOLBAR USING 'DISPLAY' CHANGING fcode_administration.
+      PERFORM prepare_exclude_toolbar USING 'UPLOAD' CHANGING fcode_administration.
+      SET PF-STATUS 'YDP_SD_STATUS' EXCLUDING fcode_administration.
+      ELSE.
+        MESSAGE 'You do not have authorization for using these functionality' TYPE 'S' DISPLAY LIKE 'E'.
+      ENDIF.
+
+    WHEN ''.
+      lv_subsc = '1004'.
+      tabctrl_sd-activetab = 'FC_MU'.
+      PERFORM prepare_exclude_toolbar USING 'CREATE' CHANGING fcode_mu.
+      PERFORM prepare_exclude_toolbar USING 'MODIFY' CHANGING fcode_mu.
+      PERFORM PREPARE_EXCLUDE_TOOLBAR USING 'DELETE' CHANGING fcode_mu.
+      PERFORM PREPARE_EXCLUDE_TOOLBAR USING 'DISPLAY' CHANGING fcode_mu.
+      SET PF-STATUS 'YDP_SD_STATUS' EXCLUDING fcode_mu.
+    WHEN OTHERS.
+
+  ENDCASE.
+
+  CASE tabctrl_sd-activetab.
+    WHEN 'FC_PROD'.
+      SET PF-STATUS 'YDP_SD_STATUS' EXCLUDING 'UPLOAD'.
+    WHEN 'FC_BP'.
+      SET PF-STATUS 'YDP_SD_STATUS' EXCLUDING 'UPLOAD'.
+    WHEN 'FC_SO'.
+      PERFORM prepare_exclude_toolbar USING 'CREATE' CHANGING fcode_so.
+      PERFORM prepare_exclude_toolbar USING 'MODIFY' CHANGING fcode_so.
+      PERFORM PREPARE_EXCLUDE_TOOLBAR USING 'DELETE' CHANGING fcode_so.
+      PERFORM PREPARE_EXCLUDE_TOOLBAR USING 'UPLOAD' CHANGING fcode_so.
+      SET PF-STATUS 'YDP_SD_STATUS' EXCLUDING fcode_so.
+    WHEN 'FC_MU'.
+      PERFORM prepare_exclude_toolbar USING 'CREATE' CHANGING fcode_mu.
+      PERFORM prepare_exclude_toolbar USING 'MODIFY' CHANGING fcode_mu.
+      PERFORM PREPARE_EXCLUDE_TOOLBAR USING 'DELETE' CHANGING fcode_mu.
+      PERFORM PREPARE_EXCLUDE_TOOLBAR USING 'DISPLAY' CHANGING fcode_mu.
+      SET PF-STATUS 'YDP_SD_STATUS' EXCLUDING fcode_mu.
+    WHEN 'FC_ANALYTICS'.
+      lv_subsc = '1007'.
+      tabctrl_sd-activetab = 'FC_ANALYTICS'.
+      PERFORM prepare_exclude_toolbar USING 'CREATE' CHANGING fcodu_analytics.
+      PERFORM prepare_exclude_toolbar USING 'MODIFY' CHANGING fcodu_analytics.
+      PERFORM PREPARE_EXCLUDE_TOOLBAR USING 'DELETE' CHANGING fcodu_analytics.
+      PERFORM PREPARE_EXCLUDE_TOOLBAR USING 'DISPLAY' CHANGING fcodu_analytics.
+      PERFORM PREPARE_EXCLUDE_TOOLBAR USING 'UPLOAD' CHANGING fcodu_analytics.
+      SET PF-STATUS 'YDP_SD_STATUS' EXCLUDING fcodu_analytics.
+    WHEN 'FC_ADMIN'.
+      lv_subsc = '1009'.
+      tabctrl_sd-activetab = 'FC_ADMIN'.
+      PERFORM prepare_exclude_toolbar USING 'CREATE' CHANGING fcode_administration.
+      PERFORM prepare_exclude_toolbar USING 'MODIFY' CHANGING fcode_administration.
+      PERFORM PREPARE_EXCLUDE_TOOLBAR USING 'DELETE' CHANGING fcode_administration.
+      PERFORM PREPARE_EXCLUDE_TOOLBAR USING 'DISPLAY' CHANGING fcode_administration.
+      SET PF-STATUS 'YDP_SD_STATUS' EXCLUDING fcode_administration.
+    WHEN OTHERS.
+  ENDCASE.
+
+ENDMODULE.
+*&---------------------------------------------------------------------*
+*& Module STATUS_1001 OUTPUT
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+MODULE status_1001 OUTPUT.
+* SET PF-STATUS 'xxxxxxxx'.
+* SET TITLEBAR 'xxx'.
+
+  LOOP AT SCREEN.
+    IF screen-group1 = 'YDP_PRODUCT-PROD_ID'.
+      MODIFY SCREEN.
+      CLEAR screen-input.
+    ENDIF.
+  ENDLOOP.
+
+
+ENDMODULE.
+*&---------------------------------------------------------------------*
+*& Module STATUS_1002 OUTPUT
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+MODULE status_1002 OUTPUT.
+* SET PF-STATUS 'xxxxxxxx'.
+* SET TITLEBAR 'xxx'.
+ENDMODULE.
+*&---------------------------------------------------------------------*
+*& Module STATUS_1003 OUTPUT
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+MODULE status_1003 OUTPUT.
+* SET PF-STATUS 'xxxxxxxx'.
+* SET TITLEBAR 'xxx'.
+
+IF lt_so_item is NOT INITIAL or lv_answer = 1.
+  lv_subsc1 = '1006'.
+else.
+  lv_subsc1 = '1005'.
+ENDIF.
+
+
+
+ENDMODULE.
+*&---------------------------------------------------------------------*
+*& Module STATUS_1004 OUTPUT
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+MODULE status_1004 OUTPUT.
+* SET PF-STATUS 'xxxxxxxx'.
+* SET TITLEBAR 'xxx'.
+CLEAR list.
+
+  name = 'LV_TABLE_NAME'.
+  value-key = '1'.
+  value-text = 'YDP_PRODUCT'.
+  APPEND value TO list.
+
+  value-key = '2'.
+  value-text = 'YDP_BP'.
+  APPEND value TO list.
+
+  value-key = '3'.
+  value-text = 'YDP_SO_HEADER'.
+  APPEND value TO list.
+
+
+  value-key = '4'.
+  value-text = 'YDP_SO_ITEM'.
+  APPEND value TO list.
+*
+  CALL FUNCTION 'VRM_SET_VALUES' EXPORTING id = name values = list.
+ENDMODULE.
+*&---------------------------------------------------------------------*
+*&      Module  F4_GET  INPUT
+*&---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+MODULE f4_get INPUT.
+
+
+
+  CALL FUNCTION 'F4_FILENAME'
+    EXPORTING
+      program_name  = syst-cprog
+      dynpro_number = syst-dynnr
+*     FIELD_NAME    = ' '
+    IMPORTING
+      file_name     = file_path.
+
+
+
+ENDMODULE.
+*&---------------------------------------------------------------------*
+*& Module STATUS_1005 OUTPUT
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+MODULE status_1005 OUTPUT.
+* SET PF-STATUS 'xxxxxxxx'.
+* SET TITLEBAR 'xxx'.
+ENDMODULE.
+*&---------------------------------------------------------------------*
+*& Module STATUS_1006 OUTPUT
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+MODULE status_1006 OUTPUT.
+* SET PF-STATUS 'xxxxxxxx'.
+* SET TITLEBAR 'xxx'.
+
+  IF lv_answer EQ '1'.
+    CLEAR: lt_so_item.
+*    APPEND INITIAL LINE TO lt_so_item.
+*    PERFORM add_lines.
+    PERFORM display_new_alv.
+    CLEAR lv_answer.
+  else.
+
+    IF lo_alv_grid is BOUND.
+      lo_alv_grid->free( ).
+    ENDIF.
+
+    IF lo_cust_container is BOUND.
+      lo_cust_container->free( ).
+    ENDIF.
+
+    CLEAR : lo_alv_grid, lo_cust_container.
+
+IF lo_cust_container IS NOT BOUND.
+    CREATE OBJECT lo_cust_container
+      EXPORTING
+*       parent                      =                  " Parent container
+        container_name              = 'CUST_ITEMS'            " Name of the Screen CustCtrl Name to Link Container To
+*       style                       =                  " Windows Style Attributes Applied to this Container
+*       lifetime                    = lifetime_default " Lifetime
+*       repid                       =                  " Screen to Which this Container is Linked
+*       dynnr                       =                  " Report To Which this Container is Linked
+*       no_autodef_progid_dynnr     =                  " Don't Autodefined Progid and Dynnr?
+      EXCEPTIONS
+        cntl_error                  = 1                " CNTL_ERROR
+        cntl_system_error           = 2                " CNTL_SYSTEM_ERROR
+        create_error                = 3                " CREATE_ERROR
+        lifetime_error              = 4                " LIFETIME_ERROR
+        lifetime_dynpro_dynpro_link = 5                " LIFETIME_DYNPRO_DYNPRO_LINK
+        OTHERS                      = 6.
+
+  ENDIF.
+
+  IF lo_alv_grid IS NOT BOUND.
+
+    IF lt_so_item IS NOT INITIAL .
+
+      CREATE OBJECT lo_alv_grid
+        EXPORTING
+*         i_shellstyle      = 0                " Control Style
+*         i_lifetime        =                  " Lifetime
+          i_parent          = lo_cust_container         " Parent Container
+*         i_appl_events     = space            " Register Events as Application Events
+*         i_parentdbg       =                  " Internal, Do not Use
+*         i_applogparent    =                  " Container for Application Log
+*         i_graphicsparent  =                  " Container for Graphics
+*         i_name            =                  " Name
+*         i_fcat_complete   = space            " Boolean Variable (X=True, Space=False)
+*         o_previous_sral_handler =
+        EXCEPTIONS
+          error_cntl_create = 1                " Error when creating the control
+          error_cntl_init   = 2                " Error While Initializing Control
+          error_cntl_link   = 3                " Error While Linking Control
+          error_dp_create   = 4                " Error While Creating DataProvider Control
+          OTHERS            = 5.
+
+      PERFORM build_fcat.
+
+
+
+      lo_alv_grid->set_table_for_first_display(
+*      EXPORTING
+*        i_buffer_active               =                  " Buffering Active
+*        i_bypassing_buffer            =                  " Switch Off Buffer
+*        i_consistency_check           =                  " Starting Consistency Check for Interface Error Recognition
+*        i_structure_name              =                  " Internal Output Table Structure Name
+*        is_variant                    =                  " Layout
+*        i_save                        =                  " Save Layout
+*        i_default                     = 'X'              " Default Display Variant
+*        is_layout                     =                  " Layout
+*        is_print                      =                  " Print Control
+*        it_special_groups             =                  " Field Groups
+*        it_toolbar_excluding          =                  " Excluded Toolbar Standard Functions
+*        it_hyperlink                  =                  " Hyperlinks
+*        it_alv_graphics               =                  " Table of Structure DTC_S_TC
+*        it_except_qinfo               =                  " Table for Exception Quickinfo
+*        ir_salv_adapter               =                  " Interface ALV Adapter
+        CHANGING
+          it_outtab                     =      lt_so_item            " Output Table
+          it_fieldcatalog               =       lt_fcat        " Field Catalog
+*        it_sort                       =                  " Sort Criteria
+*        it_filter                     =                  " Filter Criteria
+        EXCEPTIONS
+          invalid_parameter_combination = 1                " Wrong Parameter
+          program_error                 = 2                " Program Errors
+          too_many_lines                = 3                " Too many Rows in Ready for Input Grid
+          OTHERS                        = 4
+      ).
+    ENDIF.
+  ELSE.
+    PERFORM build_fcat.
+
+    lo_alv_grid->set_frontend_fieldcatalog( it_fieldcatalog =  lt_fcat ).
+
+    lo_alv_grid->refresh_table_display( ).
+  ENDIF.
+ENDIF.
+
+ENDMODULE.
+*&---------------------------------------------------------------------*
+*& Module PRODUCT_ALV OUTPUT
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+MODULE product_alv OUTPUT.
+* SET PF-STATUS 'xxxxxxxx'.
+* SET TITLEBAR 'xxx'.
+
+  PERFORM display_product_alv.
+
+ENDMODULE.
+*&---------------------------------------------------------------------*
+*& Module STATUS_1007 OUTPUT
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+MODULE status_1007 OUTPUT.
+* SET PF-STATUS 'xxxxxxxx'.
+* SET TITLEBAR 'xxx'.
+  DATA : lo_handler TYPE REF TO lcl_handler.
+
+IF lo_analytics_cust_container IS NOT BOUND.
+  create OBJECT lo_analytics_cust_container
+    EXPORTING
+*      parent                      =                  " Parent container
+      container_name              =      'CUST_CTRL_ANALYTICS'            " Name of the Screen CustCtrl Name to Link Container To
+*      style                       =                  " Windows Style Attributes Applied to this Container
+*      lifetime                    = lifetime_default " Lifetime
+*      repid                       =                  " Screen to Which this Container is Linked
+*      dynnr                       =                  " Report To Which this Container is Linked
+*      no_autodef_progid_dynnr     =                  " Don't Autodefined Progid and Dynnr?
+    EXCEPTIONS
+      cntl_error                  = 1                " CNTL_ERROR
+      cntl_system_error           = 2                " CNTL_SYSTEM_ERROR
+      create_error                = 3                " CREATE_ERROR
+      lifetime_error              = 4                " LIFETIME_ERROR
+      lifetime_dynpro_dynpro_link = 5                " LIFETIME_DYNPRO_DYNPRO_LINK
+      others                      = 6 .
+
+ENDIF.
+
+IF lo_analytics_alv_grid IS NOT BOUND.
+  IF lt_bp_analytics IS not INITIAL OR lt_product_analytics IS NOT INITIAL.
+
+
+  CREATE OBJECT lo_analytics_alv_grid
+    EXPORTING
+*      i_shellstyle            = 0                " Control Style
+*      i_lifetime              =                  " Lifetime
+      i_parent                =  lo_analytics_cust_container                " Parent Container
+*      i_appl_events           = space            " Register Events as Application Events
+*      i_parentdbg             =                  " Internal, Do not Use
+*      i_applogparent          =                  " Container for Application Log
+*      i_graphicsparent        =                  " Container for Graphics
+*      i_name                  =                  " Name
+*      i_fcat_complete         = space            " Boolean Variable (X=True, Space=False)
+*      o_previous_sral_handler =
+    EXCEPTIONS
+      error_cntl_create       = 1                " Error when creating the control
+      error_cntl_init         = 2                " Error While Initializing Control
+      error_cntl_link         = 3                " Error While Linking Control
+      error_dp_create         = 4                " Error While Creating DataProvider Control
+      others                  = 5.
+
+    IF sy-ucomm eq 'FC_SALES_PRODUCT'.
+        PERFORM product_analytics_fcat.
+    ELSEIF sy-ucomm eq 'FC_SALES_BP'.
+        PERFORM bp_analytics_fcat.
+    ENDIF.
+
+    PERFORM Delete_button.
+
+    CREATE OBJECT lo_handler.
+
+    SET HANDLER lo_handler->custom_toolbar FOR lo_analytics_alv_grid.
+
+    SET HANDLER lo_handler->handle_user_command FOR lo_analytics_alv_grid.
+
+    IF sy-ucomm eq 'FC_SALES_PRODUCT'.
+      lo_analytics_alv_grid->set_table_for_first_display(
+        EXPORTING
+*          i_buffer_active               =                  " Buffering Active
+*          i_bypassing_buffer            =                  " Switch Off Buffer
+*          i_consistency_check           =                  " Starting Consistency Check for Interface Error Recognition
+*          i_structure_name              =                  " Internal Output Table Structure Name
+*          is_variant                    =                  " Layout
+*          i_save                        =                  " Save Layout
+*          i_default                     = 'X'              " Default Display Variant
+*          is_layout                     =                  " Layout
+*          is_print                      =                  " Print Control
+*          it_special_groups             =                  " Field Groups
+          it_toolbar_excluding          =  lt_toolbar_exclude             " Excluded Toolbar Standard Functions
+*          it_hyperlink                  =                  " Hyperlinks
+*          it_alv_graphics               =                  " Table of Structure DTC_S_TC
+*          it_except_qinfo               =                  " Table for Exception Quickinfo
+*          ir_salv_adapter               =                  " Interface ALV Adapter
+        CHANGING
+          it_outtab                     =   lt_product_analytics               " Output Table
+          it_fieldcatalog               =   lt_product_analytics_fcat          " Field Catalog
+*          it_sort                       =                  " Sort Criteria
+*          it_filter                     =                  " Filter Criteria
+        EXCEPTIONS
+          invalid_parameter_combination = 1                " Wrong Parameter
+          program_error                 = 2                " Program Errors
+          too_many_lines                = 3                " Too many Rows in Ready for Input Grid
+          others                        = 4  ).
+
+
+    ELSEIF  sy-ucomm eq 'FC_SALES_BP'.
+      lo_analytics_alv_grid->set_table_for_first_display(
+        EXPORTING
+*          i_buffer_active               =                  " Buffering Active
+*          i_bypassing_buffer            =                  " Switch Off Buffer
+*          i_consistency_check           =                  " Starting Consistency Check for Interface Error Recognition
+*          i_structure_name              =                  " Internal Output Table Structure Name
+*          is_variant                    =                  " Layout
+*          i_save                        =                  " Save Layout
+*          i_default                     = 'X'              " Default Display Variant
+*          is_layout                     =                  " Layout
+*          is_print                      =                  " Print Control
+*          it_special_groups             =                  " Field Groups
+          it_toolbar_excluding          =  lt_toolbar_exclude            " Excluded Toolbar Standard Functions
+*          it_hyperlink                  =                  " Hyperlinks
+*          it_alv_graphics               =                  " Table of Structure DTC_S_TC
+*          it_except_qinfo               =                  " Table for Exception Quickinfo
+*          ir_salv_adapter               =                  " Interface ALV Adapter
+        CHANGING
+          it_outtab                     =   lt_bp_analytics               " Output Table
+          it_fieldcatalog               =   lt_bp_analytics_fcat          " Field Catalog
+*          it_sort                       =                  " Sort Criteria
+*          it_filter                     =                  " Filter Criteria
+        EXCEPTIONS
+          invalid_parameter_combination = 1                " Wrong Parameter
+          program_error                 = 2                " Program Errors
+          too_many_lines                = 3                " Too many Rows in Ready for Input Grid
+          others                        = 4  ).
+    ENDIF.
+
+    ENDIF.
+
+ELSE.
+
+      lo_analytics_alv_grid->refresh_table_display(
+*      EXPORTING
+*        is_stable      =                  " With Stable Rows/Columns
+*        i_soft_refresh =                  " Without Sort, Filter, etc.
+      EXCEPTIONS
+        finished       = 1                " Display was Ended (by Export)
+        others         = 2 ).
+
+ENDIF.
+
+ENDMODULE.
+*&---------------------------------------------------------------------*
+*& Module STATUS_1008 OUTPUT
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+MODULE status_1008 OUTPUT.
+ SET PF-STATUS 'YDP_AUTH_STATUS'.
+ SET TITLEBAR 'YDP_AUTHORIZATION'.
+DATA: lv_logoff TYPE xfeld.
+
+ CASE sy-ucomm.
+ 	WHEN 'BACK'.
+    CALL FUNCTION 'POPUP_TO_CONFIRM'
+    EXPORTING
+      TITLEBAR              = text-003
+      TEXT_QUESTION         = text-004
+      TEXT_BUTTON_1         = text-005
+      ICON_BUTTON_1         = 'ICON_CHECKED'
+      TEXT_BUTTON_2         = Text-006
+      ICON_BUTTON_2         = 'ICON_CANCEL'
+      DISPLAY_CANCEL_BUTTON = ' '
+      POPUP_TYPE            = 'ICON_MESSAGE_ERROR'
+    IMPORTING
+      ANSWER                = lv_logoff.
+  IF lv_logoff = 1.
+    LEAVE PROGRAM.
+  ELSE.
+    call SCREEN 1000.
+  ENDIF.
+ 	WHEN OTHERS.
+ ENDCASE.
+ENDMODULE.
+*&---------------------------------------------------------------------*
+*& Module STATUS_1009 OUTPUT
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+MODULE status_1009 OUTPUT.
+* SET PF-STATUS 'xxxxxxxx'.
+* SET TITLEBAR 'xxx'.
+
+  SELECT * FROM ydp_role_assign INTO TABLE @lt_roles_all.
+IF lo_admin_cust_container is NOT BOUND.
+  create OBJECT lo_admin_cust_container
+    EXPORTING
+*      parent                      =                  " Parent container
+      container_name              =    'CUST_CTRL_ADMIN'                " Name of the Screen CustCtrl Name to Link Container To
+*      style                       =                  " Windows Style Attributes Applied to this Container
+*      lifetime                    = lifetime_default " Lifetime
+*      repid                       =                  " Screen to Which this Container is Linked
+*      dynnr                       =                  " Report To Which this Container is Linked
+*      no_autodef_progid_dynnr     =                  " Don't Autodefined Progid and Dynnr?
+    EXCEPTIONS
+      cntl_error                  = 1                " CNTL_ERROR
+      cntl_system_error           = 2                " CNTL_SYSTEM_ERROR
+      create_error                = 3                " CREATE_ERROR
+      lifetime_error              = 4                " LIFETIME_ERROR
+      lifetime_dynpro_dynpro_link = 5                " LIFETIME_DYNPRO_DYNPRO_LINK
+      others                      = 6.
+ENDIF.
+
+IF lo_admin_alv_grid is NOT BOUND.
+  CREATE OBJECT lo_admin_alv_grid
+    EXPORTING
+*      i_shellstyle            = 0                " Control Style
+*      i_lifetime              =                  " Lifetime
+      i_parent                =   lo_admin_cust_container               " Parent Container
+*      i_appl_events           = space            " Register Events as Application Events
+*      i_parentdbg             =                  " Internal, Do not Use
+*      i_applogparent          =                  " Container for Application Log
+*      i_graphicsparent        =                  " Container for Graphics
+*      i_name                  =                  " Name
+*      i_fcat_complete         = space            " Boolean Variable (X=True, Space=False)
+*      o_previous_sral_handler =
+    EXCEPTIONS
+      error_cntl_create       = 1                " Error when creating the control
+      error_cntl_init         = 2                " Error While Initializing Control
+      error_cntl_link         = 3                " Error While Linking Control
+      error_dp_create         = 4                " Error While Creating DataProvider Control
+      others                  = 5.
+
+  PERFORM build_admin_fcat.
+
+  lo_admin_alv_grid->set_table_for_first_display(
+*    EXPORTING
+*      i_buffer_active               =                  " Buffering Active
+*      i_bypassing_buffer            =                  " Switch Off Buffer
+*      i_consistency_check           =                  " Starting Consistency Check for Interface Error Recognition
+*      i_structure_name              =                  " Internal Output Table Structure Name
+*      is_variant                    =                  " Layout
+*      i_save                        =                  " Save Layout
+*      i_default                     = 'X'              " Default Display Variant
+*      is_layout                     =                  " Layout
+*      is_print                      =                  " Print Control
+*      it_special_groups             =                  " Field Groups
+*      it_toolbar_excluding          =                  " Excluded Toolbar Standard Functions
+*      it_hyperlink                  =                  " Hyperlinks
+*      it_alv_graphics               =                  " Table of Structure DTC_S_TC
+*      it_except_qinfo               =                  " Table for Exception Quickinfo
+*      ir_salv_adapter               =                  " Interface ALV Adapter
+    CHANGING
+      it_outtab                     =   lt_roles_all               " Output Table
+      it_fieldcatalog               =   lt_admin_fcat            " Field Catalog
+*      it_sort                       =                  " Sort Criteria
+*      it_filter                     =                  " Filter Criteria
+    EXCEPTIONS
+      invalid_parameter_combination = 1                " Wrong Parameter
+      program_error                 = 2                " Program Errors
+      too_many_lines                = 3                " Too many Rows in Ready for Input Grid
+      others                        = 4 ).
+
+  else.
+    lo_admin_alv_grid->refresh_table_display( ).
+ENDIF.
+
+ENDMODULE.
+*&---------------------------------------------------------------------*
+*& Module STATUS_0100 OUTPUT
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+MODULE status_0100 OUTPUT.
+ SET PF-STATUS 'YDP_CREATE_USER'.
+ SET TITLEBAR 'YDP_NEW_USER_TITLE'.
+ENDMODULE.

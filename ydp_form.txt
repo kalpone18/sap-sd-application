@@ -1,0 +1,2415 @@
+*&---------------------------------------------------------------------*
+*& Include          YDP_SD_MANAGEMENT_FORM
+*&---------------------------------------------------------------------*
+*&---------------------------------------------------------------------*
+*& Form build_fcat
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM build_fcat .
+  IF lv_answer EQ '1'.
+    PERFORM new_build_fcat.
+  ELSE. " lt_so_item is not INITIAL.
+    PERFORM build_existes_fcat.
+  ENDIF.
+
+ENDFORM.
+
+*&---------------------------------------------------------------------*
+*& Form build_so_header_fcat
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM build_so_header_fcat.
+  CLEAR : lt_mu_fcat.
+
+  ls_mu_fcat-fieldname = 'MANDT'.
+  ls_mu_fcat-tabname = 'YDP_SO_HEADER'.
+  ls_mu_fcat-col_pos = 1.
+*  ls_mu_fcat-coltext = 'Product ID'.
+*  ls_mu_fcat-scrtext_l = 'Product ID'.
+*  ls_mu_fcat-scrtext_m = 'Product ID'.
+*  ls_mu_fcat-scrtext_s = 'PRD ID'.
+  ls_mu_fcat-no_out = 'X'.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+
+  ls_mu_fcat-fieldname = 'SO_ID'.
+  ls_mu_fcat-tabname = 'YDP_SO_HEADER'.
+  ls_mu_fcat-col_pos = 2.
+  ls_mu_fcat-coltext = 'Sales Order ID'.
+  ls_mu_fcat-scrtext_l = 'Sales Order ID'.
+  ls_mu_fcat-scrtext_m = 'Sales ORder ID'.
+  ls_mu_fcat-scrtext_s = 'SO ID'.
+  ls_mu_fcat-hotspot = abap_true.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+
+  ls_mu_fcat-fieldname = 'CREATION_DATE'.
+  ls_mu_fcat-tabname = 'YDP_SO_HEADER'.
+  ls_mu_fcat-col_pos = 3.
+  ls_mu_fcat-coltext = 'Creation Date'.
+  ls_mu_fcat-scrtext_l = 'Creation Date'.
+  ls_mu_fcat-scrtext_m = 'Creation Date'.
+  ls_mu_fcat-scrtext_s = 'BP NAME'.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+
+  ls_mu_fcat-fieldname = 'BP_ID'.
+  ls_mu_fcat-tabname = 'YDP_SO_HEADER'.
+  ls_mu_fcat-col_pos = 4.
+  ls_mu_fcat-coltext = 'Business Partner ID'.
+  ls_mu_fcat-scrtext_l = 'Business Partner ID'.
+  ls_mu_fcat-scrtext_m = 'Buss Part ID'.
+  ls_mu_fcat-scrtext_s = 'BP ID'.
+  ls_mu_fcat-edit = abap_true.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+
+  ls_mu_fcat-fieldname = 'CREATED_BY'.
+  ls_mu_fcat-tabname = 'YDP_SO_HEADER'.
+  ls_mu_fcat-col_pos = 5.
+  ls_mu_fcat-coltext = 'Created By'.
+  ls_mu_fcat-scrtext_l = 'Created By'.
+  ls_mu_fcat-scrtext_m = 'Created By'.
+  ls_mu_fcat-scrtext_s = 'Crtd By'.
+  ls_mu_fcat-edit = abap_true.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+
+  ls_mu_fcat-fieldname = 'CHANGED_ON'.
+  ls_mu_fcat-tabname = 'Changed On'.
+  ls_mu_fcat-col_pos = 6.
+  ls_mu_fcat-coltext = 'Changed On'.
+  ls_mu_fcat-scrtext_l = 'Changed On'.
+  ls_mu_fcat-scrtext_m = 'Changed On'.
+  ls_mu_fcat-scrtext_s = 'Chngd On'.
+  ls_mu_fcat-edit = abap_true.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+
+  ls_mu_fcat-fieldname = 'CHANGED_BY'.
+  ls_mu_fcat-tabname = 'YDP_SO_HEADER'.
+  ls_mu_fcat-col_pos = 7.
+  ls_mu_fcat-coltext = 'Changed By'.
+  ls_mu_fcat-scrtext_l = 'Changed By'.
+  ls_mu_fcat-scrtext_m = 'Changed By'.
+  ls_mu_fcat-scrtext_s = 'Chngd By'.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form build_mu_fcat
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM build_product_fcat .
+
+  CLEAR : lt_mu_fcat.
+  ls_mu_fcat-fieldname = 'MANDT'.
+  ls_mu_fcat-tabname = 'YDP_PRODUCT'.
+  ls_mu_fcat-col_pos = 1.
+*  ls_mu_fcat-coltext = 'Product ID'.
+*  ls_mu_fcat-scrtext_l = 'Product ID'.
+*  ls_mu_fcat-scrtext_m = 'Product ID'.
+*  ls_mu_fcat-scrtext_s = 'PRD ID'.
+  ls_mu_fcat-no_out = 'X'.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+
+  ls_mu_fcat-fieldname = 'PROD_ID'.
+  ls_mu_fcat-tabname = 'YDP_PRODUCT'.
+  ls_mu_fcat-col_pos = 2.
+  ls_mu_fcat-coltext = 'Product ID'.
+  ls_mu_fcat-scrtext_l = 'Product ID'.
+  ls_mu_fcat-scrtext_m = 'Product ID'.
+  ls_mu_fcat-scrtext_s = 'PRD ID'.
+  ls_mu_fcat-hotspot = abap_true.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+
+  ls_mu_fcat-fieldname = 'PROD_NAME'.
+  ls_mu_fcat-tabname = 'YDP_PRODUCT'.
+  ls_mu_fcat-col_pos = 3.
+  ls_mu_fcat-coltext = 'Product Name'.
+  ls_mu_fcat-scrtext_l = 'Product Name'.
+  ls_mu_fcat-scrtext_m = 'Product Name'.
+  ls_mu_fcat-scrtext_s = 'PRD NAME'.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+
+  ls_mu_fcat-fieldname = 'DESCRIPTION'.
+  ls_mu_fcat-tabname = 'YDP_PRODUCT'.
+  ls_mu_fcat-col_pos = 4.
+  ls_mu_fcat-coltext = 'Description'.
+  ls_mu_fcat-scrtext_l = 'Description'.
+  ls_mu_fcat-scrtext_m = 'Description'.
+  ls_mu_fcat-scrtext_s = 'Desc'.
+  ls_mu_fcat-edit = abap_true.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+
+  ls_mu_fcat-fieldname = 'PRICE'.
+  ls_mu_fcat-tabname = 'YDP_PRODUCT'.
+  ls_mu_fcat-col_pos = 5.
+  ls_mu_fcat-coltext = 'Price'.
+  ls_mu_fcat-scrtext_l = 'Price'.
+  ls_mu_fcat-scrtext_m = 'Price'.
+  ls_mu_fcat-scrtext_s = 'Price'.
+  ls_mu_fcat-edit = abap_true.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+
+  ls_mu_fcat-fieldname = 'CATEGORY'.
+  ls_mu_fcat-tabname = 'YDP_PRODUCT'.
+  ls_mu_fcat-col_pos = 6.
+  ls_mu_fcat-coltext = 'Category'.
+  ls_mu_fcat-scrtext_l = 'Category'.
+  ls_mu_fcat-scrtext_m = 'Category'.
+  ls_mu_fcat-scrtext_s = 'Cat'.
+  ls_mu_fcat-edit = abap_true.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+
+*  ls_mu_fcat-fieldname = 'CURRENCY'.
+*  ls_mu_fcat-tabname = 'YDP_PRODUCT'.
+*  ls_mu_fcat-col_pos = 7.
+*  ls_mu_fcat-coltext = 'Currency'.
+*  ls_mu_fcat-scrtext_l = 'Currency'.
+*  ls_mu_fcat-scrtext_m = 'Currency'.
+*  ls_mu_fcat-scrtext_s = 'Currency'.
+*  APPEND ls_mu_fcat TO lt_mu_fcat.
+*  CLEAR : ls_mu_fcat.
+
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form PREPARE_EXCLUDE_TOOLBAR
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*&      --> P_
+*&      <-- FCODE_SO
+*&---------------------------------------------------------------------*
+FORM prepare_exclude_toolbar  USING    p_code TYPE char20
+                              CHANGING fcode TYPE tt_sy_ucomm.
+
+  APPEND p_code TO fcode.
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form upload_data
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM upload_data .
+
+*  IF lt_prod IS INITIAL.
+
+  CALL FUNCTION 'ALSM_EXCEL_TO_INTERNAL_TABLE'
+    EXPORTING
+      filename                = file_path
+      i_begin_col             = 1
+      i_begin_row             = 1
+      i_end_col               = 10
+      i_end_row               = 2000
+    TABLES
+      intern                  = lt_tab
+    EXCEPTIONS
+      inconsistent_parameters = 1
+      upload_ole              = 2
+      OTHERS                  = 3.
+
+*  ENDIF.
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form check_changed_data
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM check_changed_data .
+
+  IF lo_mu_alv_grid IS BOUND.
+
+    lo_mu_alv_grid->check_changed_data(
+    IMPORTING
+      e_valid   =       DATA(lv_valid)           " Entries are Consistent
+*  CHANGING
+*    c_refresh = w_x              " Character Field of Length 1
+  ).
+
+  ENDIF.
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form adjust_data
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM adjust_data .
+
+  IF <lt_table> IS ASSIGNED. " AND <lt_table> IS INITIAL.
+
+*  IF lt_prod IS INITIAL.
+    "--------------Control Break Stmt--------------------------------------->
+    CASE lv_selected_table.
+      WHEN 'YDP_PRODUCT'.
+        PERFORM create_table_for_product.
+*        PERFORM compare_files_and_components.
+      WHEN 'YDP_BP'.
+        PERFORM create_table_for_bp.
+*        PERFORM compare_files_and_components.
+      WHEN 'YDP_SO_HEADER'.
+        PERFORM create_table_for_so_header.
+*        PERFORM compare_files_and_components.
+      WHEN 'YDP_SO_ITEM'.
+        PERFORM create_table_for_so_item.
+*        PERFORM compare_files_and_components.
+      WHEN OTHERS.
+    ENDCASE.
+
+
+*  ENDIF.
+  ENDIF.
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form display
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM display .
+  IF lo_obj_so IS NOT BOUND.
+    CREATE OBJECT lo_obj_so.
+  ENDIF.
+  DATA(lv_so_id) = ydp_so_header-so_id.
+
+  CASE sy-ucomm.
+
+      CLEAR: lv_no_data.
+    WHEN 'DISPLAY' OR 'ENTER'.
+      lo_obj_so->display_method(
+      EXPORTING
+        iv_so_id     =  lv_so_id
+      IMPORTING
+        es_so_header =  ydp_so_header
+        et_items     =  lt_so_item
+        ev_no_data   = lv_no_data
+        ).
+
+      CLEAR : lv_so_id.
+
+      IF lv_no_data EQ 'X'.
+
+        PERFORM popup_box.
+
+      ENDIF.
+    WHEN OTHERS.
+  ENDCASE.
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form upload_data_into_database
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM upload_data_into_database .
+  IF sy-ucomm EQ 'UPLOAD'.
+*    IF lt_prod IS NOT INITIAL.
+    IF lv_selected_table EQ 'YDP_PRODUCT'.
+      MODIFY ydp_product FROM TABLE <lt_table>.
+      IF sy-subrc EQ 0.
+        MESSAGE 'Data Modified Successfully!!!' TYPE 'S'.
+      ELSE.
+        MESSAGE 'Data Could not be changed' TYPE 'S' DISPLAY LIKE 'E'.
+      ENDIF.
+
+    ELSEIF lv_selected_table EQ 'YDP_BP'.
+      MODIFY ydp_bp FROM TABLE <lt_table>.
+      IF sy-subrc EQ 0.
+        MESSAGE 'Data Modified Successfully!!!' TYPE 'S'.
+      ELSE.
+        MESSAGE 'Data Could not be changed' TYPE 'S' DISPLAY LIKE 'E'.
+      ENDIF.
+
+    ELSEIF lv_selected_table EQ 'YDP_SO_HEADER'.
+      MODIFY ydp_so_header FROM TABLE <lt_table>.
+      IF sy-subrc EQ 0.
+        MESSAGE 'Data Modified Successfully!!!' TYPE 'S'.
+      ELSE.
+        MESSAGE 'Data Could not be changed' TYPE 'S' DISPLAY LIKE 'E'.
+      ENDIF.
+
+    ELSEIF lv_selected_table EQ 'YDP_SO_ITEM'.
+      MODIFY ydp_so_item FROM TABLE <lt_table>.
+      IF sy-subrc EQ 0.
+        MESSAGE 'Data Modified Successfully!!!' TYPE 'S'.
+      ELSE.
+        MESSAGE 'Data Could not be changed' TYPE 'S' DISPLAY LIKE 'E'.
+      ENDIF.
+    ENDIF.
+
+*    ENDIF.
+  ENDIF.
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form upload_csv_data
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM upload_csv_data .
+
+  DATA : lv_price(10) TYPE c.
+  DATA : lv_uuid(16) TYPE c.
+  DATA : lv_quantity(4) TYPE c.
+  DATA : lv_creation_date(10) TYPE c,
+         lv_changed_on(10)    TYPE c.
+  DATA : lv_year(4)  TYPE n,
+         lv_month(2) TYPE n,
+         lv_day(2)   TYPE n.
+*  IF lt_prod IS INITIAL.
+
+  s_file = file_path.
+
+  cl_gui_frontend_services=>gui_upload(
+    EXPORTING
+      filename                = s_file            " Name of file
+      filetype                = 'ASC'            " File Type (ASCII, Binary)
+      has_field_separator     = 'X'            " Columns Separated by Tabs in Case of ASCII Upload
+*    header_length           = 0                " Length of Header for Binary Data
+*    read_by_line            = 'X'              " File Written Line-By-Line to the Internal Table
+*    dat_mode                = space            " Numeric and date fields are in DAT format in WS_DOWNLOAD
+*    codepage                =                  " Character Representation for Output
+*    ignore_cerr             = abap_true        " Ignore character set conversion errors?
+*    replacement             = '#'              " Replacement Character for Non-Convertible Characters
+*    virus_scan_profile      =                  " Virus Scan Profile
+*  IMPORTING
+*    filelength              =                  " File Length
+*    header                  =                  " File Header in Case of Binary Upload
+    CHANGING
+      data_tab                =  lt_final_data                " Transfer table for file contents
+*    isscanperformed         = space            " File already scanned
+    EXCEPTIONS
+      file_open_error         = 1                " File does not exist and cannot be opened
+      file_read_error         = 2                " Error when reading file
+      no_batch                = 3                " Cannot execute front-end function in background
+      gui_refuse_filetransfer = 4                " Incorrect front end or error on front end
+      invalid_type            = 5                " Incorrect parameter FILETYPE
+      no_authority            = 6                " No upload authorization
+      unknown_error           = 7                " Unknown error
+      bad_data_format         = 8                " Cannot Interpret Data in File
+      header_not_allowed      = 9                " Invalid header
+      separator_not_allowed   = 10               " Invalid separator
+      header_too_long         = 11               " Header information currently restricted to 1023 bytes
+      unknown_dp_error        = 12               " Error when calling data provider
+      access_denied           = 13               " Access to file denied.
+      dp_out_of_memory        = 14               " Not enough memory in data provider
+      disk_full               = 15               " Storage medium is full.
+      dp_timeout              = 16               " Data provider timeout
+      not_supported_by_gui    = 17               " GUI does not support this
+      error_no_gui            = 18               " GUI not available
+      OTHERS                  = 19 ).
+
+  CLEAR: lt_file_fields.
+  LOOP AT lt_final_data INTO DATA(ls_final_data).
+
+    IF sy-tabix EQ 1.
+      SPLIT ls_final_data AT  ',' INTO TABLE lt_file_fields.
+      CONTINUE.
+    ENDIF.
+
+    PERFORM compare_files_and_components CHANGING lv_error_flag.
+    IF lv_error_flag IS NOT INITIAL.
+      EXIT.
+    ENDIF.
+
+    IF lv_selected_table EQ 'YDP_PRODUCT'.
+      SPLIT ls_final_data AT ',' INTO ls_prod-mandt ls_prod-prod_id ls_prod-prod_name ls_prod-description lv_price ls_prod-category ls_prod-currency.
+      ls_prod-price = CONV #( lv_price ).
+
+      APPEND ls_prod TO lt_prod.
+      CLEAR : ls_prod, lv_price.
+
+      <lt_table> = lt_prod.
+
+    ELSEIF lv_selected_table EQ 'YDP_BP'.
+      SPLIT ls_final_data AT ',' INTO ls_bp-mandt ls_bp-bp_id ls_bp-bp_name ls_bp-department ls_bp-bp_location ls_bp-bp_region
+      ls_bp-aadhar lv_uuid.
+
+      ls_bp-uuid = CONV #( lv_uuid ).
+
+      APPEND ls_bp TO lt_bp.
+
+      <lt_table> = lt_bp.
+
+    ELSEIF lv_selected_table EQ 'YDP_SO_HEADER'.
+      SPLIT ls_final_data AT ',' INTO ls_so_header-mandt ls_so_header-so_id lv_creation_date ls_so_header-bp_id
+      ls_so_header-created_by lv_changed_on ls_so_header-changed_by.
+
+*        SPLIT lv_creation_date at '/' into DATA(lv_month1) DATA(lv_day1) DATA(lv_year1).
+      lv_month = substring_before( val = lv_creation_date sub = '/').
+      lv_creation_date = substring_after( val = lv_creation_date sub = '/').
+      lv_day = substring_before( val = lv_creation_date sub = '/').
+      lv_year = substring_after( val = lv_creation_date sub = '/').
+
+      ls_so_header-creation_date = lv_year && lv_month && lv_day.
+      CLEAR : lv_month, lv_day, lv_year, lv_creation_date.
+
+      lv_month = substring_before( val = lv_changed_on sub = '/').
+      lv_changed_on = substring_after( val = lv_changed_on sub = '/').
+      lv_day = substring_before( val = lv_changed_on sub = '/').
+      lv_year = substring_after( val = lv_changed_on sub = '/').
+
+      ls_so_header-changed_on = lv_year && lv_month && lv_day.
+      CLEAR : lv_month, lv_day, lv_year, lv_changed_on.
+
+      APPEND ls_so_header TO lt_so_header.
+
+
+      <lt_table> = lt_so_header.
+
+    ELSEIF lv_selected_table EQ 'YDP_SO_ITEM'.
+      SPLIT ls_final_data AT ',' INTO ls_so_item-mandt ls_so_item-so_id ls_so_item-so_item ls_so_item-prd_id lv_quantity
+      ls_so_item-unit lv_price ls_so_item-currency lv_creation_date ls_so_item-created_by lv_changed_on ls_so_item-changed_by.
+
+      ls_so_item-quantity = CONV #( lv_quantity ).
+      ls_so_item-price = CONV #( lv_price ).
+
+      lv_month = substring_before( val = lv_creation_date sub = '/').
+      lv_creation_date = substring_after( val = lv_creation_date sub = '/').
+      lv_day = substring_before( val = lv_creation_date sub = '/').
+      lv_year = substring_after( val = lv_creation_date sub = '/').
+
+      ls_so_item-created_on = lv_year && lv_month && lv_day.
+      CLEAR : lv_month, lv_day, lv_year, lv_creation_date.
+
+      lv_month = substring_before( val = lv_changed_on sub = '/').
+      lv_changed_on = substring_after( val = lv_changed_on sub = '/').
+      lv_day = substring_before( val = lv_changed_on sub = '/').
+      lv_year = substring_after( val = lv_changed_on sub = '/').
+
+      ls_so_item-changed_on = lv_year && lv_month && lv_day.
+      CLEAR : lv_month, lv_day, lv_year, lv_changed_on.
+
+      APPEND ls_so_item TO lt_so_item.
+
+      <lt_table> = lt_so_item.
+    ENDIF.
+
+  ENDLOOP.
+
+*  ENDIF.
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form split_file
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM split_file .
+  SPLIT file_path AT '.' INTO lv_string lv_format.
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form display_product_alv
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM display_product_alv .
+  IF lo_mu_cust_container IS NOT BOUND.
+    CREATE OBJECT lo_mu_cust_container
+      EXPORTING
+*       parent                      =                  " Parent container
+        container_name              = 'CUST_CTRL2'            " Name of the Screen CustCtrl Name to Link Container To
+*       style                       =                  " Windows Style Attributes Applied to this Container
+*       lifetime                    = lifetime_default " Lifetime
+*       repid                       =                  " Screen to Which this Container is Linked
+*       dynnr                       =                  " Report To Which this Container is Linked
+*       no_autodef_progid_dynnr     =                  " Don't Autodefined Progid and Dynnr?
+      EXCEPTIONS
+        cntl_error                  = 1                " CNTL_ERROR
+        cntl_system_error           = 2                " CNTL_SYSTEM_ERROR
+        create_error                = 3                " CREATE_ERROR
+        lifetime_error              = 4                " LIFETIME_ERROR
+        lifetime_dynpro_dynpro_link = 5                " LIFETIME_DYNPRO_DYNPRO_LINK
+        OTHERS                      = 6.
+
+  ENDIF.
+
+  IF lo_mu_alv_grid IS NOT BOUND.
+
+    IF <lt_table> IS ASSIGNED AND <lt_table> IS  NOT INITIAL.
+
+
+      CREATE OBJECT lo_mu_alv_grid
+        EXPORTING
+*         i_shellstyle      = 0                " Control Style
+*         i_lifetime        =                  " Lifetime
+          i_parent          = lo_mu_cust_container         " Parent Container
+*         i_appl_events     = space            " Register Events as Application Events
+*         i_parentdbg       =                  " Internal, Do not Use
+*         i_applogparent    =                  " Container for Application Log
+*         i_graphicsparent  =                  " Container for Graphics
+*         i_name            =                  " Name
+*         i_fcat_complete   = space            " Boolean Variable (X=True, Space=False)
+*         o_previous_sral_handler =
+        EXCEPTIONS
+          error_cntl_create = 1                " Error when creating the control
+          error_cntl_init   = 2                " Error While Initializing Control
+          error_cntl_link   = 3                " Error While Linking Control
+          error_dp_create   = 4                " Error While Creating DataProvider Control
+          OTHERS            = 5.
+
+      PERFORM create_field_catalog.
+
+      lo_mu_alv_grid->set_table_for_first_display(
+      EXPORTING
+*        i_buffer_active               =                  " Buffering Active
+        i_bypassing_buffer            = 'X'             " Switch Off Buffer
+*        i_consistency_check           =                  " Starting Consistency Check for Interface Error Recognition
+*        i_structure_name              =                  " Internal Output Table Structure Name
+*        is_variant                    =                  " Layout
+*        i_save                        =                  " Save Layout
+*        i_default                     = 'X'              " Default Display Variant
+*        is_layout                     =                  " Layout
+*        is_print                      =                  " Print Control
+*        it_special_groups             =                  " Field Groups
+*        it_toolbar_excluding          =                  " Excluded Toolbar Standard Functions
+*        it_hyperlink                  =                  " Hyperlinks
+*        it_alv_graphics               =                  " Table of Structure DTC_S_TC
+*        it_except_qinfo               =                  " Table for Exception Quickinfo
+*        ir_salv_adapter               =                  " Interface ALV Adapter
+        CHANGING
+          it_outtab                     =      <lt_table>             " Output Table
+          it_fieldcatalog               =      lt_mu_fcat        " Field Catalog
+*        it_sort                       =                  " Sort Criteria
+*        it_filter                     =                  " Filter Criteria
+        EXCEPTIONS
+          invalid_parameter_combination = 1                " Wrong Parameter
+          program_error                 = 2                " Program Errors
+          too_many_lines                = 3                " Too many Rows in Ready for Input Grid
+          OTHERS                        = 4
+      ).
+    ENDIF.
+  ELSE.
+
+*    ls_mu_fcat-fieldname = 'CURRENCY'.
+*    ls_mu_fcat-tabname = 'YDP_PRODUCT'.
+*    ls_mu_fcat-col_pos = 2.
+*    ls_mu_fcat-coltext = 'Currency'.
+*    ls_mu_fcat-scrtext_l = 'Currency'.
+*    ls_mu_fcat-scrtext_m = 'Currency'.
+*    ls_mu_fcat-scrtext_s = 'Currency'.
+*    ls_mu_fcat-hotspot = abap_true.
+*    APPEND ls_mu_fcat TO lt_mu_fcat.
+*    CLEAR : ls_mu_fcat.
+
+    PERFORM create_field_catalog.
+
+    lo_mu_alv_grid->set_frontend_fieldcatalog( it_fieldcatalog = lt_mu_fcat ).
+
+
+    lo_mu_alv_grid->refresh_table_display( ).
+  ENDIF.
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form build_bp_fcat
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM build_bp_fcat .
+  CLEAR : lt_mu_fcat.
+
+
+  ls_mu_fcat-fieldname = 'MANDT'.
+  ls_mu_fcat-tabname = 'YDP_BP'.
+  ls_mu_fcat-col_pos = 1.
+*  ls_mu_fcat-coltext = 'Product ID'.
+*  ls_mu_fcat-scrtext_l = 'Product ID'.
+*  ls_mu_fcat-scrtext_m = 'Product ID'.
+*  ls_mu_fcat-scrtext_s = 'PRD ID'.
+  ls_mu_fcat-no_out = 'X'.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+
+  ls_mu_fcat-fieldname = 'BP_ID'.
+  ls_mu_fcat-tabname = 'YDP_BP'.
+  ls_mu_fcat-col_pos = 2.
+  ls_mu_fcat-coltext = 'Business Partner ID'.
+  ls_mu_fcat-scrtext_l = 'Business Partner ID'.
+  ls_mu_fcat-scrtext_m = 'Buss Part ID'.
+  ls_mu_fcat-scrtext_s = 'BP ID'.
+  ls_mu_fcat-hotspot = abap_true.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+
+  ls_mu_fcat-fieldname = 'BP_NAME'.
+  ls_mu_fcat-tabname = 'YDP_BP'.
+  ls_mu_fcat-col_pos = 3.
+  ls_mu_fcat-coltext = 'Business Partner Name'.
+  ls_mu_fcat-scrtext_l = 'Business Partner Name'.
+  ls_mu_fcat-scrtext_m = 'Buss Part Name'.
+  ls_mu_fcat-scrtext_s = 'BP NAME'.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+
+  ls_mu_fcat-fieldname = 'DEPARTMENT'.
+  ls_mu_fcat-tabname = 'YDP_BP'.
+  ls_mu_fcat-col_pos = 4.
+  ls_mu_fcat-coltext = 'DEPARTMENT'.
+  ls_mu_fcat-scrtext_l = 'Department'.
+  ls_mu_fcat-scrtext_m = 'Department'.
+  ls_mu_fcat-scrtext_s = 'Dep'.
+  ls_mu_fcat-edit = abap_true.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+
+  ls_mu_fcat-fieldname = 'BP_LOCATION'.
+  ls_mu_fcat-tabname = 'YDP_BP'.
+  ls_mu_fcat-col_pos = 5.
+  ls_mu_fcat-coltext = 'LOCATION'.
+  ls_mu_fcat-scrtext_l = 'LOCATION'.
+  ls_mu_fcat-scrtext_m = 'LOCATION'.
+  ls_mu_fcat-scrtext_s = 'LOCATION'.
+  ls_mu_fcat-edit = abap_true.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+
+  ls_mu_fcat-fieldname = 'BP_REGION'.
+  ls_mu_fcat-tabname = 'YDP_BP'.
+  ls_mu_fcat-col_pos = 6.
+  ls_mu_fcat-coltext = 'Region'.
+  ls_mu_fcat-scrtext_l = 'Region'.
+  ls_mu_fcat-scrtext_m = 'Region'.
+  ls_mu_fcat-scrtext_s = 'Region'.
+  ls_mu_fcat-edit = abap_true.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+
+  ls_mu_fcat-fieldname = 'AADHAR'.
+  ls_mu_fcat-tabname = 'YDP_BP'.
+  ls_mu_fcat-col_pos = 7.
+  ls_mu_fcat-coltext = 'AADHAR'.
+  ls_mu_fcat-scrtext_l = 'AADHAR'.
+  ls_mu_fcat-scrtext_m = 'AADHAR'.
+  ls_mu_fcat-scrtext_s = 'AADHAR'.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+
+  ls_mu_fcat-fieldname = 'UUID'.
+  ls_mu_fcat-tabname = 'YDP_BP'.
+  ls_mu_fcat-col_pos = 7.
+  ls_mu_fcat-coltext = 'UUID'.
+  ls_mu_fcat-scrtext_l = 'UUID'.
+  ls_mu_fcat-scrtext_m = 'UUID'.
+  ls_mu_fcat-scrtext_s = 'UUID'.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+ENDFORM.
+
+*&---------------------------------------------------------------------*
+*& Form build_bp_fcat
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM create_internal_table USING iv_tab_name TYPE char16.
+  "Referencing
+
+  CREATE DATA lr_table_line TYPE (iv_tab_name).
+
+  ASSIGN lr_table_line->* TO <ls_table_line>.
+
+  gr_strucdescr ?= cl_abap_structdescr=>describe_by_name( p_name =  iv_tab_name ).
+  TRY .
+      gr_tabledescr ?= cl_abap_tabledescr=>create(  p_line_type  = gr_strucdescr ).
+      CREATE DATA lr_table TYPE HANDLE gr_tabledescr.
+
+      "Dereferencing
+      ASSIGN lr_table->* TO <lt_table>.
+    CATCH cx_sy_move_cast_error INTO DATA(lo_cast_error).
+
+  ENDTRY.
+
+
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form create_table_for_product
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM create_table_for_product .
+
+  SORT lt_tab.
+  CLEAR: lt_file_fields.
+  LOOP AT lt_tab INTO DATA(ls_tab).
+
+    IF ls_tab-row = '00001'.
+      lt_file_fields = VALUE #( BASE lt_file_fields ( CONV #( ls_tab-value ) ) ).
+      CONTINUE.
+    ENDIF.
+
+    PERFORM compare_files_and_components CHANGING lv_error_flag.
+    IF lv_error_flag IS NOT INITIAL.
+      EXIT.
+    ENDIF.
+    AT NEW row.
+      CLEAR : <ls_table_line>.
+    ENDAT.
+
+    CASE ls_tab-col.
+      WHEN 1.
+        ASSIGN COMPONENT 'MANDT' OF STRUCTURE <ls_table_line> TO FIELD-SYMBOL(<fs_val>).
+      WHEN 2.
+*          <ls_table_line>-prod_id = ls_tab-value.
+        ASSIGN COMPONENT 'PROD_ID' OF STRUCTURE <ls_table_line> TO <fs_val>.
+      WHEN 3.
+*          <ls_table_line>-prod_name = ls_tab-value.
+        ASSIGN COMPONENT 'PROD_NAME' OF STRUCTURE <ls_table_line> TO <fs_val>.
+      WHEN 4.
+*          <ls_table_line>-description = ls_tab-value.
+        ASSIGN COMPONENT 'DESCRIPTION' OF STRUCTURE <ls_table_line> TO <fs_val>.
+      WHEN 5.
+*          <ls_table_line>-price = ls_tab-value.
+        ASSIGN COMPONENT 'PRICE' OF STRUCTURE <ls_table_line> TO <fs_val>.
+      WHEN 6.
+*          <ls_table_line>-category = ls_tab-value.
+        ASSIGN COMPONENT 'CATEGORY' OF STRUCTURE <ls_table_line> TO <fs_val>.
+      WHEN 7.
+*          <ls_table_line>-currency = ls_tab-value.
+        ASSIGN COMPONENT 'CURRENCY' OF STRUCTURE <ls_table_line> TO <fs_val>.
+      WHEN OTHERS.
+    ENDCASE.
+    <fs_val> = ls_tab-value.
+    AT END OF row.
+*        APPEND <ls_table_line> TO <lt_table>.
+      INSERT <ls_table_line> INTO TABLE <lt_table>.
+    ENDAT.
+
+  ENDLOOP.
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form get_table_name_from_key
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*&      --> TABLE_NAME
+*&      <-- LV_TABLE_NAME
+*&---------------------------------------------------------------------*
+FORM get_table_name_from_key  USING    iv_table_key TYPE char17
+                              CHANGING iv_table_name TYPE char16.
+
+  name = 'LV_TABLE_NAME'.
+
+  CALL FUNCTION 'VRM_GET_VALUES'
+    EXPORTING
+      id           = name
+    IMPORTING
+      values       = list
+    EXCEPTIONS
+      id_not_found = 1
+      OTHERS       = 2.
+
+  READ TABLE list INTO DATA(ls_list) WITH KEY key = iv_table_key.
+  IF sy-subrc EQ 0.
+    iv_table_name = ls_list-text.
+  ENDIF.
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form create_table_for_bp
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM create_table_for_bp .
+  SORT lt_tab.
+
+
+  CLEAR lt_file_fields.
+  LOOP AT lt_tab INTO DATA(ls_tab).
+
+
+    IF ls_tab-row = '00001'.
+      lt_file_fields = VALUE #( BASE lt_file_fields ( CONV #( ls_tab-value ) ) ).
+      CONTINUE.
+    ENDIF.
+
+    PERFORM compare_files_and_components CHANGING lv_error_flag.
+
+    IF lv_error_flag IS NOT INITIAL.
+      EXIT.
+    ENDIF.
+
+    AT NEW row.
+      CLEAR : <ls_table_line>.
+    ENDAT.
+
+    CASE ls_tab-col.
+      WHEN 1.
+        ASSIGN COMPONENT 'MANDT' OF STRUCTURE <ls_table_line> TO FIELD-SYMBOL(<fs_val>).
+      WHEN 2.
+*          <ls_table_line>-prod_id = ls_tab-value.
+        ASSIGN COMPONENT 'BP_ID' OF STRUCTURE <ls_table_line> TO <fs_val>.
+      WHEN 3.
+*          <ls_table_line>-prod_name = ls_tab-value.
+        ASSIGN COMPONENT 'BP_NAME' OF STRUCTURE <ls_table_line> TO <fs_val>.
+      WHEN 4.
+*          <ls_table_line>-description = ls_tab-value.
+        ASSIGN COMPONENT 'DEPARTMENT' OF STRUCTURE <ls_table_line> TO <fs_val>.
+      WHEN 5.
+*          <ls_table_line>-price = ls_tab-value.
+        ASSIGN COMPONENT 'BP_LOCATION' OF STRUCTURE <ls_table_line> TO <fs_val>.
+      WHEN 6.
+*          <ls_table_line>-category = ls_tab-value.
+        ASSIGN COMPONENT 'BP_REGION' OF STRUCTURE <ls_table_line> TO <fs_val>.
+      WHEN 7.
+*          <ls_table_line>-currency = ls_tab-value.
+        ASSIGN COMPONENT 'AADHAR' OF STRUCTURE <ls_table_line> TO <fs_val>.
+      WHEN 8.
+        ASSIGN COMPONENT 'UUID' OF STRUCTURE <ls_table_line> TO <fs_val>.
+      WHEN OTHERS.
+    ENDCASE.
+    <fs_val> = ls_tab-value.
+    AT END OF row.
+*        APPEND <ls_table_line> TO <lt_table>.
+      INSERT <ls_table_line> INTO TABLE <lt_table>.
+    ENDAT.
+
+  ENDLOOP.
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form create_table_for_so_header
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM create_table_for_so_header .
+  SORT lt_tab.
+
+  CLEAR: lt_file_fields.
+  LOOP AT lt_tab INTO DATA(ls_tab).
+
+    IF ls_tab-row = '00001'.
+      lt_file_fields = VALUE #( BASE lt_file_fields ( CONV #( ls_tab-value ) ) ).
+      CONTINUE.
+    ENDIF.
+
+    PERFORM compare_files_and_components CHANGING lv_error_flag.
+
+    IF lv_error_flag IS NOT INITIAL.
+      EXIT.
+    ENDIF.
+
+    AT NEW row.
+      CLEAR : <ls_table_line>.
+    ENDAT.
+
+    CASE ls_tab-col.
+      WHEN 1.
+        ASSIGN COMPONENT 'MANDT' OF STRUCTURE <ls_table_line> TO FIELD-SYMBOL(<fs_val>).
+      WHEN 2.
+*          <ls_table_line>-prod_id = ls_tab-value.
+        ASSIGN COMPONENT 'SO_ID' OF STRUCTURE <ls_table_line> TO <fs_val>.
+      WHEN 3.
+*          <ls_table_line>-prod_name = ls_tab-value.
+        ASSIGN COMPONENT 'CREATION_DATE' OF STRUCTURE <ls_table_line> TO <fs_val>.
+      WHEN 4.
+*          <ls_table_line>-description = ls_tab-value.
+        ASSIGN COMPONENT 'BP_ID' OF STRUCTURE <ls_table_line> TO <fs_val>.
+      WHEN 5.
+*          <ls_table_line>-price = ls_tab-value.
+        ASSIGN COMPONENT 'CREATED_BY' OF STRUCTURE <ls_table_line> TO <fs_val>.
+      WHEN 6.
+*          <ls_table_line>-category = ls_tab-value.
+        ASSIGN COMPONENT 'CHANGED_ON' OF STRUCTURE <ls_table_line> TO <fs_val>.
+      WHEN 7.
+*          <ls_table_line>-currency = ls_tab-value.
+        ASSIGN COMPONENT 'CHANGED_BY' OF STRUCTURE <ls_table_line> TO <fs_val>.
+      WHEN OTHERS.
+    ENDCASE.
+    <fs_val> = ls_tab-value.
+    AT END OF row.
+*        APPEND <ls_table_line> TO <lt_table>.
+      INSERT <ls_table_line> INTO TABLE <lt_table>.
+    ENDAT.
+
+  ENDLOOP.
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form create_table_for_so_item
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM create_table_for_so_item .
+  SORT lt_tab.
+
+  CLEAR: lt_file_fields.
+  LOOP AT lt_tab INTO DATA(ls_tab).
+
+    IF ls_tab-row = '00001'.
+      lt_file_fields = VALUE #( BASE lt_file_fields ( CONV #( ls_tab-value ) ) ).
+      CONTINUE.
+    ENDIF.
+
+    PERFORM compare_files_and_components CHANGING lv_error_flag.
+
+    IF lv_error_flag IS NOT INITIAL.
+      EXIT.
+    ENDIF.
+
+    AT NEW row.
+      CLEAR : <ls_table_line>.
+    ENDAT.
+
+    CASE ls_tab-col.
+      WHEN 1.
+        ASSIGN COMPONENT 'MANDT' OF STRUCTURE <ls_table_line> TO FIELD-SYMBOL(<fs_val>).
+      WHEN 2.
+*          <ls_table_line>-prod_id = ls_tab-value.
+        ASSIGN COMPONENT 'SO_ID' OF STRUCTURE <ls_table_line> TO <fs_val>.
+      WHEN 3.
+*          <ls_table_line>-prod_name = ls_tab-value.
+        ASSIGN COMPONENT 'SO_ITEM' OF STRUCTURE <ls_table_line> TO <fs_val>.
+      WHEN 4.
+*          <ls_table_line>-description = ls_tab-value.
+        ASSIGN COMPONENT 'PRD_ID' OF STRUCTURE <ls_table_line> TO <fs_val>.
+      WHEN 5.
+*          <ls_table_line>-category = ls_tab-value.
+        ASSIGN COMPONENT 'QUANTITY' OF STRUCTURE <ls_table_line> TO <fs_val>.
+      WHEN 6.
+*          <ls_table_line>-category = ls_tab-value.
+        ASSIGN COMPONENT 'UNIT' OF STRUCTURE <ls_table_line> TO <fs_val>.
+      WHEN 7.
+*          <ls_table_line>-price = ls_tab-value.
+        ASSIGN COMPONENT 'PRICE' OF STRUCTURE <ls_table_line> TO <fs_val>.
+      WHEN 8.
+*          <ls_table_line>-currency = ls_tab-value.
+        ASSIGN COMPONENT 'CURRENCY' OF STRUCTURE <ls_table_line> TO <fs_val>.
+      WHEN 9.
+*          <ls_table_line>-category = ls_tab-value.
+        ASSIGN COMPONENT 'CREATED_ON' OF STRUCTURE <ls_table_line> TO <fs_val>.
+      WHEN 10.
+*          <ls_table_line>-category = ls_tab-value.
+        ASSIGN COMPONENT 'CREATED_BY' OF STRUCTURE <ls_table_line> TO <fs_val>.
+      WHEN 11.
+*          <ls_table_line>-category = ls_tab-value.
+        ASSIGN COMPONENT 'CREATED_ON' OF STRUCTURE <ls_table_line> TO <fs_val>.
+      WHEN 12.
+*          <ls_table_line>-category = ls_tab-value.
+        ASSIGN COMPONENT 'CHANGED_BY' OF STRUCTURE <ls_table_line> TO <fs_val>.
+      WHEN OTHERS.
+    ENDCASE.
+    <fs_val> = ls_tab-value.
+    AT END OF row.
+*        APPEND <ls_table_line> TO <lt_table>.
+      INSERT <ls_table_line> INTO TABLE <lt_table>.
+    ENDAT.
+
+  ENDLOOP.
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form build_so_item_fcat
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM build_so_item_fcat .
+
+  CLEAR : lt_mu_fcat.
+  ls_mu_fcat-fieldname = 'SO_ID'.
+  ls_mu_fcat-coltext = 'Sales Order ID'.
+  ls_mu_fcat-scrtext_l = 'Sales Order ID'.
+  ls_mu_fcat-scrtext_m = 'SaleOrd ID'.
+  ls_mu_fcat-scrtext_s = 'SO ID'.
+  ls_mu_fcat-hotspot = abap_true.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+
+  ls_mu_fcat-fieldname = 'SO_ITEM'.
+  ls_mu_fcat-coltext = 'Sales Item'.
+  ls_mu_fcat-scrtext_l = 'Sales Order Item'.
+  ls_mu_fcat-scrtext_m = 'SaleOrd Item'.
+  ls_mu_fcat-scrtext_s = 'SO item'.
+  ls_mu_fcat-hotspot = abap_true.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+
+
+  ls_mu_fcat-fieldname = 'PRD_ID'.
+  ls_mu_fcat-coltext = 'Product ID'.
+  ls_mu_fcat-scrtext_l = 'Product ID'.
+  ls_mu_fcat-scrtext_m = 'Product ID'.
+  ls_mu_fcat-scrtext_s = 'PRD ID'.
+  ls_mu_fcat-hotspot = abap_true.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+
+  ls_mu_fcat-fieldname = 'QUANTITY'.
+  ls_mu_fcat-coltext = 'Quantity'.
+  ls_mu_fcat-scrtext_l = 'Quantity'.
+  ls_mu_fcat-scrtext_m = 'Quantity'.
+  ls_mu_fcat-scrtext_s = 'Quantity'.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+
+  ls_mu_fcat-fieldname = 'UNIT'.
+  ls_mu_fcat-coltext = 'Unit'.
+  ls_mu_fcat-scrtext_l = 'Unit'.
+  ls_mu_fcat-scrtext_m = 'Unit'.
+  ls_mu_fcat-scrtext_s = 'Unit'.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+
+  ls_mu_fcat-fieldname = 'PRICE'.
+  ls_mu_fcat-coltext = 'Price'.
+  ls_mu_fcat-scrtext_l = 'Price'.
+  ls_mu_fcat-scrtext_m = 'Price'.
+  ls_mu_fcat-scrtext_s = 'Price'.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+
+  ls_mu_fcat-fieldname = 'CURRENCY'.
+  ls_mu_fcat-coltext = 'Currency'.
+  ls_mu_fcat-scrtext_l = 'Currency'.
+  ls_mu_fcat-scrtext_m = 'Currency'.
+  ls_mu_fcat-scrtext_s = 'Currency'.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+
+  ls_mu_fcat-fieldname = 'CREATED_ON'.
+  ls_mu_fcat-coltext = 'Created On'.
+  ls_mu_fcat-scrtext_l = 'Created On'.
+  ls_mu_fcat-scrtext_m = 'Created On'.
+  ls_mu_fcat-scrtext_s = 'Cret On'.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+
+  ls_mu_fcat-fieldname = 'CREATED_BY'.
+  ls_mu_fcat-coltext = 'Created By'.
+  ls_mu_fcat-scrtext_l = 'Created By'.
+  ls_mu_fcat-scrtext_m = 'Created By'.
+  ls_mu_fcat-scrtext_s = 'Cret By'.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+
+  ls_mu_fcat-fieldname = 'CHANGED_ON'.
+  ls_mu_fcat-coltext = 'Changed On'.
+  ls_mu_fcat-scrtext_l = 'Changed On'.
+  ls_mu_fcat-scrtext_m = 'Cheanged On'.
+  ls_mu_fcat-scrtext_s = 'Change On'.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+
+  ls_mu_fcat-fieldname = 'CHANGED_BY'.
+  ls_mu_fcat-coltext = 'Changed By'.
+  ls_mu_fcat-scrtext_l = 'Changed By'.
+  ls_mu_fcat-scrtext_m = 'Changed By'.
+  ls_mu_fcat-scrtext_s = 'Change By'.
+  APPEND ls_mu_fcat TO lt_mu_fcat.
+  CLEAR : ls_mu_fcat.
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form changing_field_catalog
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM create_field_catalog .
+
+  IF lv_selected_table EQ 'YDP_PRODUCT'.
+    PERFORM build_product_fcat.
+  ELSEIF lv_selected_table EQ 'YDP_BP'.
+    PERFORM build_bp_fcat.
+  ELSEIF lv_selected_table EQ 'YDP_SO_HEADER'.
+    PERFORM build_so_header_fcat.
+  ELSEIF lv_selected_table EQ 'YDP_SO_ITEM'.
+    PERFORM build_so_item_fcat.
+  ENDIF.
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form compare_files_and_components
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM compare_files_and_components CHANGING cv_message_flag TYPE xfeld.
+  DATA(lv_component_count) = lines( gr_strucdescr->components ).
+  DATA(lv_file_count) = lines( lt_file_fields ).
+
+  IF lv_component_count EQ lv_file_count.
+
+
+    LOOP AT gr_strucdescr->components INTO DATA(ls_component).
+*  READ TABLE lt_file_fields INTO data(ls_file_fields) with KEY name = ls_file_fields-table_line.
+*
+*  data(ls_file_fields) .
+
+      IF NOT line_exists( lt_file_fields[ table_line = ls_component-name ] ).
+        cv_message_flag = abap_true.
+        MESSAGE 'File Format is wrong' TYPE 'S' DISPLAY LIKE 'E'.
+      ENDIF.
+
+    ENDLOOP.
+
+  ELSE.
+    cv_message_flag = abap_true.
+    MESSAGE 'Wrong File Format' TYPE 'S' DISPLAY LIKE 'E'.
+*  LEAVE TO SCREEN 0.
+
+  ENDIF.
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form analytics_fcat
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM bp_analytics_fcat .
+  CLEAR: lt_bp_analytics_fcat.
+  ls_bp_analytics_fcat-fieldname = 'BP_ID'.
+  ls_bp_analytics_fcat-tabname = 'YDP_BP'.
+  ls_bp_analytics_fcat-col_pos = 1.
+  ls_bp_analytics_fcat-coltext = 'Business Partner ID'.
+  ls_bp_analytics_fcat-scrtext_l = 'Business Partner ID'.
+  ls_bp_analytics_fcat-scrtext_m = 'Buss Part ID'.
+  ls_bp_analytics_fcat-scrtext_s = 'BP ID'.
+  APPEND ls_bp_analytics_fcat TO lt_bp_analytics_fcat.
+  CLEAR : ls_bp_analytics_fcat.
+
+  ls_bp_analytics_fcat-fieldname = 'BP_NAME'.
+  ls_bp_analytics_fcat-tabname = 'YDP_BP'.
+  ls_bp_analytics_fcat-col_pos = 2.
+  ls_bp_analytics_fcat-coltext = 'Business Partner Name'.
+  ls_bp_analytics_fcat-scrtext_l = 'Business Partner Name'.
+  ls_bp_analytics_fcat-scrtext_m = 'Buss Part Name'.
+  ls_bp_analytics_fcat-scrtext_s = 'BP NAME'.
+  APPEND ls_bp_analytics_fcat TO lt_bp_analytics_fcat.
+  CLEAR : ls_bp_analytics_fcat.
+
+  ls_bp_analytics_fcat-fieldname = 'PRICE'.
+  ls_bp_analytics_fcat-tabname = 'YDP_SO_ITEM'.
+  ls_bp_analytics_fcat-col_pos = 3.
+  ls_bp_analytics_fcat-coltext = 'Price'.
+  ls_bp_analytics_fcat-scrtext_l = 'Price'.
+  ls_bp_analytics_fcat-scrtext_m = 'Price'.
+  ls_bp_analytics_fcat-scrtext_s = 'Price'.
+  APPEND ls_bp_analytics_fcat TO lt_bp_analytics_fcat.
+  CLEAR : ls_bp_analytics_fcat.
+
+  ls_bp_analytics_fcat-fieldname = 'CURRENCY'.
+  ls_bp_analytics_fcat-tabname = 'YDP_SO_ITEM'.
+  ls_bp_analytics_fcat-col_pos = 4.
+  ls_bp_analytics_fcat-coltext = 'Currency'.
+  ls_bp_analytics_fcat-scrtext_l = 'Currency'.
+  ls_bp_analytics_fcat-scrtext_m = 'Currency'.
+  ls_bp_analytics_fcat-scrtext_s = 'Currency'.
+  APPEND ls_bp_analytics_fcat TO lt_bp_analytics_fcat.
+  CLEAR : ls_bp_analytics_fcat.
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form fetch_sales_per_bp
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM fetch_sales_per_bp.
+
+  SELECT a~bp_id, a~bp_name, SUM( c~price ) AS total_amount, c~currency
+    FROM ydp_bp AS a
+    INNER JOIN ydp_so_header AS b ON b~bp_id = a~bp_id
+    INNER JOIN ydp_so_item AS c ON c~so_id = b~so_id
+    INTO TABLE @lt_bp_analytics
+    GROUP BY a~bp_id, a~bp_name, c~currency
+    ORDER BY a~bp_id.
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form fetch_sales_per_product
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM fetch_sales_per_product .
+
+  SELECT a~prod_id, a~prod_name, SUM( b~price ) AS total_amount, SUM( b~quantity ) AS total_quantity, b~currency
+    FROM ydp_product AS a
+    INNER JOIN ydp_so_item AS b ON b~prd_id = a~prod_id
+    INTO TABLE @lt_product_analytics
+    GROUP BY a~prod_id, a~prod_name, b~currency
+    ORDER BY a~prod_id.
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form product_analytics_fcat
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM product_analytics_fcat .
+  CLEAR: lt_product_analytics_fcat.
+  ls_product_analytics_fcat-fieldname = 'PROD_ID'.
+  ls_product_analytics_fcat-tabname = 'YDP_PRODUCT'.
+  ls_product_analytics_fcat-col_pos = 1.
+  ls_product_analytics_fcat-coltext = 'Product ID'.
+  ls_product_analytics_fcat-scrtext_l = 'Product ID'.
+  ls_product_analytics_fcat-scrtext_m = 'Product ID'.
+  ls_product_analytics_fcat-scrtext_s = 'PRD ID'.
+  ls_product_analytics_fcat-hotspot = abap_true.
+  APPEND ls_product_analytics_fcat TO lt_product_analytics_fcat.
+  CLEAR : ls_product_analytics_fcat.
+
+  ls_product_analytics_fcat-fieldname = 'PROD_NAME'.
+  ls_product_analytics_fcat-tabname = 'YDP_PRODUCT'.
+  ls_product_analytics_fcat-col_pos = 2.
+  ls_product_analytics_fcat-coltext = 'Product Name'.
+  ls_product_analytics_fcat-scrtext_l = 'Product Name'.
+  ls_product_analytics_fcat-scrtext_m = 'Product Name'.
+  ls_product_analytics_fcat-scrtext_s = 'PRD NAME'.
+  APPEND ls_product_analytics_fcat TO lt_product_analytics_fcat.
+  CLEAR : ls_product_analytics_fcat.
+
+  ls_product_analytics_fcat-fieldname = 'PRICE'.
+  ls_product_analytics_fcat-tabname = 'YDP_SO_ITEM'.
+  ls_product_analytics_fcat-col_pos = 3.
+  ls_product_analytics_fcat-coltext = 'Price'.
+  ls_product_analytics_fcat-scrtext_l = 'Price'.
+  ls_product_analytics_fcat-scrtext_m = 'Price'.
+  ls_product_analytics_fcat-scrtext_s = 'Price'.
+  APPEND ls_product_analytics_fcat TO lt_product_analytics_fcat.
+  CLEAR : ls_product_analytics_fcat.
+
+  ls_product_analytics_fcat-fieldname = 'QUANTITY'.
+  ls_product_analytics_fcat-tabname = 'YDP_SO_ITEM'.
+  ls_product_analytics_fcat-col_pos = 4.
+  ls_product_analytics_fcat-coltext = 'Quantity'.
+  ls_product_analytics_fcat-scrtext_l = 'Quantity'.
+  ls_product_analytics_fcat-scrtext_m = 'Quantity'.
+  ls_product_analytics_fcat-scrtext_s = 'Quantity'.
+  APPEND ls_product_analytics_fcat TO lt_product_analytics_fcat.
+  CLEAR : ls_product_analytics_fcat.
+
+  ls_product_analytics_fcat-fieldname = 'CURRENCY'.
+  ls_product_analytics_fcat-tabname = 'YDP_SO_ITEM'.
+  ls_product_analytics_fcat-col_pos = 5.
+  ls_product_analytics_fcat-coltext = 'Currency'.
+  ls_product_analytics_fcat-scrtext_l = 'Currency'.
+  ls_product_analytics_fcat-scrtext_m = 'Currency'.
+  ls_product_analytics_fcat-scrtext_s = 'Currency'.
+  APPEND ls_product_analytics_fcat TO lt_product_analytics_fcat.
+  CLEAR : ls_product_analytics_fcat.
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form Delete_button
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM delete_button .
+  ls_toolbar_exclude = cl_gui_alv_grid=>mc_fc_info.
+  APPEND ls_toolbar_exclude TO lt_toolbar_exclude.
+
+  ls_toolbar_exclude = cl_gui_alv_grid=>mc_mb_view.
+  APPEND ls_toolbar_exclude TO lt_toolbar_exclude.
+
+  ls_toolbar_exclude = cl_gui_alv_grid=>mc_mb_variant.
+  APPEND ls_toolbar_exclude TO lt_toolbar_exclude.
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form fetch_row_data
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM fetch_row_data .
+  lo_analytics_alv_grid->get_selected_rows( IMPORTING et_index_rows = DATA(lt_index_row)                 " Indexes of Selected Rows
+                                                      et_row_no     = DATA(lt_row_no)      ).
+
+
+
+  IF lt_bp_analytics IS NOT INITIAL.
+
+    DATA(lv_bp_id) = lt_bp_analytics[ lt_row_no[ 1 ]-row_id ]-bp_id.
+
+    SELECT c~so_id, c~so_item, d~prod_id, d~prod_name, c~quantity, c~unit, c~price, c~currency, c~created_on, c~created_by,
+    c~changed_on, c~changed_by
+    FROM ydp_bp AS a
+    INNER JOIN ydp_so_header AS b ON b~bp_id = a~bp_id
+    INNER JOIN ydp_so_item AS c ON c~so_id = b~so_id
+    INNER JOIN ydp_product AS d ON d~prod_id = c~prd_id
+    INTO TABLE @lt_bp_row_data WHERE a~bp_id = @lv_bp_id
+    GROUP BY c~so_id, c~so_item, d~prod_id, d~prod_name, c~quantity, c~unit, c~price, c~currency, c~created_on, c~created_by,
+    c~changed_on, c~changed_by
+    ORDER BY c~so_id.
+
+    PERFORM bp_popup_alv.
+
+
+  ELSEIF lt_product_analytics IS NOT INITIAL.
+
+    DATA(lv_prod_id) = lt_product_analytics[ lt_row_no[ 1 ]-row_id ]-prod_id.
+
+    SELECT d~prod_name, a~bp_id, a~bp_name, c~so_id, c~so_item, c~quantity,c~unit, c~price, c~currency
+      FROM ydp_bp AS a
+      INNER JOIN ydp_so_header AS b ON b~bp_id = a~bp_id
+      INNER JOIN ydp_so_item AS c ON c~so_id = b~so_id
+      INNER JOIN ydp_product AS d ON d~prod_id = c~prd_id
+      INTO TABLE @lt_product_row_data
+      WHERE d~prod_id = @lv_prod_id
+      GROUP BY d~prod_id,d~prod_name,a~bp_id,a~bp_name,c~so_id,c~so_item,c~quantity,c~unit,c~price,c~currency
+      ORDER BY d~prod_id.
+
+    PERFORM product_popup_alv.
+
+  ENDIF.
+
+ENDFORM.
+
+*&---------------------------------------------------------------------*
+*& Form free_elements
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM free_elements .
+  lv_previous_btn = lv_current_btn.
+  lv_current_btn = sy-ucomm.
+
+  IF lv_current_btn NE lv_previous_btn.
+    IF lo_analytics_alv_grid IS BOUND.
+      lo_analytics_alv_grid->free( ).
+    ENDIF.
+
+    IF lo_analytics_cust_container IS BOUND.
+      lo_analytics_cust_container->free( ).
+    ENDIF.
+
+    CLEAR: lo_analytics_alv_grid, lo_analytics_cust_container, lt_bp_analytics.
+  ENDIF.
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form bp_further_characteristics
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM bp_further_character_fcat .
+  CLEAR: lt_further_details_fcat.
+  ls_further_details_fcat-fieldname = 'SO_ID'.
+  ls_further_details_fcat-tabname = 'YDP_SO_ITEM'.
+  ls_further_details_fcat-col_pos = 1.
+  ls_further_details_fcat-coltext = 'Sales ID'.
+  ls_further_details_fcat-scrtext_l = 'Sales Order ID'.
+  ls_further_details_fcat-scrtext_m = 'SaleOrd ID'.
+  ls_further_details_fcat-scrtext_s = 'SO ID'.
+  APPEND ls_further_details_fcat TO lt_further_details_fcat.
+  CLEAR : ls_further_details_fcat.
+
+  ls_further_details_fcat-fieldname = 'SO_ITEM'.
+  ls_further_details_fcat-tabname = 'YDP_SO_ITEM'.
+  ls_further_details_fcat-col_pos = 2.
+  ls_further_details_fcat-coltext = 'Sales Item'.
+  ls_further_details_fcat-scrtext_l = 'Sales Order Item'.
+  ls_further_details_fcat-scrtext_m = 'SaleOrd Item'.
+  ls_further_details_fcat-scrtext_s = 'SO item'.
+  APPEND ls_further_details_fcat TO lt_further_details_fcat.
+  CLEAR : ls_further_details_fcat.
+
+
+  ls_further_details_fcat-fieldname = 'PROD_ID'.
+  ls_further_details_fcat-tabname = 'YDP_PRODUCT'.
+  ls_further_details_fcat-col_pos = 3.
+  ls_further_details_fcat-coltext = 'Product ID'.
+  ls_further_details_fcat-scrtext_l = 'Product ID'.
+  ls_further_details_fcat-scrtext_m = 'Product ID'.
+  ls_further_details_fcat-scrtext_s = 'PRD ID'.
+  APPEND ls_further_details_fcat TO lt_further_details_fcat.
+  CLEAR : ls_further_details_fcat.
+
+  ls_further_details_fcat-fieldname = 'PROD_NAME'.
+  ls_further_details_fcat-tabname = 'YDP_PRODUCT'.
+  ls_further_details_fcat-col_pos = 4.
+  ls_further_details_fcat-coltext = 'Product Name'.
+  ls_further_details_fcat-scrtext_l = 'Product Name'.
+  ls_further_details_fcat-scrtext_m = 'Product Name'.
+  ls_further_details_fcat-scrtext_s = 'PRD NAME'.
+  APPEND ls_further_details_fcat TO lt_further_details_fcat.
+  CLEAR : ls_further_details_fcat.
+
+  ls_further_details_fcat-fieldname = 'QUANTITY'.
+  ls_further_details_fcat-tabname = 'YDP_SO_ITEM'.
+  ls_further_details_fcat-col_pos = 5.
+  ls_further_details_fcat-coltext = 'Quantity'.
+  ls_further_details_fcat-scrtext_l = 'Quantity'.
+  ls_further_details_fcat-scrtext_m = 'Quantity'.
+  ls_further_details_fcat-scrtext_s = 'Quantity'.
+  APPEND ls_further_details_fcat TO lt_further_details_fcat.
+  CLEAR : ls_further_details_fcat.
+
+  ls_further_details_fcat-fieldname = 'UNIT'.
+  ls_further_details_fcat-tabname = 'YDP_SO_ITEM'.
+  ls_further_details_fcat-col_pos = 6.
+  ls_further_details_fcat-coltext = 'Unit'.
+  ls_further_details_fcat-scrtext_l = 'Unit'.
+  ls_further_details_fcat-scrtext_m = 'Unit'.
+  ls_further_details_fcat-scrtext_s = 'Unit'.
+  APPEND ls_further_details_fcat TO lt_further_details_fcat.
+  CLEAR : ls_further_details_fcat.
+
+  ls_further_details_fcat-fieldname = 'PRICE'.
+  ls_further_details_fcat-tabname = 'YDP_SO_ITEM'.
+  ls_further_details_fcat-col_pos = 7.
+  ls_further_details_fcat-coltext = 'Price'.
+  ls_further_details_fcat-scrtext_l = 'Price'.
+  ls_further_details_fcat-scrtext_m = 'Price'.
+  ls_further_details_fcat-scrtext_s = 'Price'.
+  APPEND ls_further_details_fcat TO lt_further_details_fcat.
+  CLEAR : ls_further_details_fcat.
+
+  ls_further_details_fcat-fieldname = 'CURRENCY'.
+  ls_further_details_fcat-tabname = 'YDP_SO_ITEM'.
+  ls_further_details_fcat-col_pos = 8.
+  ls_further_details_fcat-coltext = 'Currency'.
+  ls_further_details_fcat-scrtext_l = 'Currency'.
+  ls_further_details_fcat-scrtext_m = 'Currency'.
+  ls_further_details_fcat-scrtext_s = 'Currency'.
+  APPEND ls_further_details_fcat TO lt_further_details_fcat.
+  CLEAR : ls_further_details_fcat.
+
+  ls_further_details_fcat-fieldname = 'CREATED_ON'.
+  ls_further_details_fcat-tabname = 'YDP_SO_ITEM'.
+  ls_further_details_fcat-col_pos = 9.
+  ls_further_details_fcat-coltext = 'Created On'.
+  ls_further_details_fcat-scrtext_l = 'Created On'.
+  ls_further_details_fcat-scrtext_m = 'Created On'.
+  ls_further_details_fcat-scrtext_s = 'Cret On'.
+  APPEND ls_further_details_fcat TO lt_further_details_fcat.
+  CLEAR : ls_further_details_fcat.
+
+  ls_further_details_fcat-fieldname = 'CREATED_BY'.
+  ls_further_details_fcat-tabname = 'YDP_SO_ITEM'.
+  ls_further_details_fcat-col_pos = 10.
+  ls_further_details_fcat-coltext = 'Created By'.
+  ls_further_details_fcat-scrtext_l = 'Created By'.
+  ls_further_details_fcat-scrtext_m = 'Created By'.
+  ls_further_details_fcat-scrtext_s = 'Cret By'.
+  APPEND ls_further_details_fcat TO lt_further_details_fcat.
+  CLEAR : ls_further_details_fcat.
+
+  ls_further_details_fcat-fieldname = 'CHANGED_ON'.
+  ls_further_details_fcat-tabname = 'YDP_SO_ITEM'.
+  ls_further_details_fcat-col_pos = 11.
+  ls_further_details_fcat-coltext = 'Changed On'.
+  ls_further_details_fcat-scrtext_l = 'Changed On'.
+  ls_further_details_fcat-scrtext_m = 'Cheanged On'.
+  ls_further_details_fcat-scrtext_s = 'Change On'.
+  APPEND ls_further_details_fcat TO lt_further_details_fcat.
+  CLEAR : ls_further_details_fcat.
+
+  ls_further_details_fcat-fieldname = 'CHANGED_BY'.
+  ls_further_details_fcat-tabname = 'YDP_SO_ITEM'.
+  ls_further_details_fcat-col_pos = 12.
+  ls_further_details_fcat-coltext = 'Changed By'.
+  ls_further_details_fcat-scrtext_l = 'Changed By'.
+  ls_further_details_fcat-scrtext_m = 'Changed By'.
+  ls_further_details_fcat-scrtext_s = 'Change By'.
+  APPEND ls_further_details_fcat TO lt_further_details_fcat.
+  CLEAR : ls_further_details_fcat.
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form product_further_character_fcat
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM product_further_character_fcat .
+  CLEAR lt_further_details_fcat.
+
+  ls_further_details_fcat-fieldname = 'PROD_NAME'.
+  ls_further_details_fcat-tabname = 'YDP_PRODUCT'.
+  ls_further_details_fcat-col_pos = 1.
+  ls_further_details_fcat-coltext = 'Product Name'.
+  ls_further_details_fcat-scrtext_l = 'Product Name'.
+  ls_further_details_fcat-scrtext_m = 'Product Name'.
+  ls_further_details_fcat-scrtext_s = 'PRD NAME'.
+  APPEND ls_further_details_fcat TO lt_further_details_fcat.
+  CLEAR : ls_further_details_fcat.
+
+  ls_further_details_fcat-fieldname = 'BP_ID'.
+  ls_further_details_fcat-tabname = 'YDP_BP'.
+  ls_further_details_fcat-col_pos = 2.
+  ls_further_details_fcat-coltext = 'Business Partner ID'.
+  ls_further_details_fcat-scrtext_l = 'Business Partner ID'.
+  ls_further_details_fcat-scrtext_m = 'Buss Part ID'.
+  ls_further_details_fcat-scrtext_s = 'BP ID'.
+  APPEND ls_further_details_fcat TO lt_further_details_fcat.
+  CLEAR : ls_further_details_fcat.
+
+  ls_further_details_fcat-fieldname = 'BP_NAME'.
+  ls_further_details_fcat-tabname = 'YDP_BP'.
+  ls_further_details_fcat-col_pos = 3.
+  ls_further_details_fcat-coltext = 'Business Partner Name'.
+  ls_further_details_fcat-scrtext_l = 'Business Partner Name'.
+  ls_further_details_fcat-scrtext_m = 'Buss Part Name'.
+  ls_further_details_fcat-scrtext_s = 'BP Name'.
+  APPEND ls_further_details_fcat TO lt_further_details_fcat.
+  CLEAR : ls_further_details_fcat.
+
+  ls_further_details_fcat-fieldname = 'SO_ID'.
+  ls_product_analytics_fcat-tabname = 'YDP_SO_ITEM'.
+  ls_product_analytics_fcat-col_pos = 4.
+  ls_further_details_fcat-coltext = 'Sales ID'.
+  ls_further_details_fcat-scrtext_l = 'Sales Order ID'.
+  ls_further_details_fcat-scrtext_m = 'SaleOrd ID'.
+  ls_further_details_fcat-scrtext_s = 'SO ID'.
+  APPEND ls_further_details_fcat TO lt_further_details_fcat.
+  CLEAR : ls_further_details_fcat.
+
+  ls_further_details_fcat-fieldname = 'SO_ITEM'.
+  ls_further_details_fcat-tabname = 'YDP_SO_ITEM'.
+  ls_further_details_fcat-col_pos = 5.
+  ls_further_details_fcat-coltext = 'Sales Order Item'.
+  ls_further_details_fcat-scrtext_l = 'Sales Order Item'.
+  ls_further_details_fcat-scrtext_m = 'SaleOrd Item'.
+  ls_further_details_fcat-scrtext_s = 'SO ITEM'.
+  APPEND ls_further_details_fcat TO lt_further_details_fcat.
+  CLEAR : ls_further_details_fcat.
+
+  ls_further_details_fcat-fieldname = 'QUANTITY'.
+  ls_further_details_fcat-tabname = 'YDP_SO_ITEM'.
+  ls_further_details_fcat-col_pos = 6.
+  ls_further_details_fcat-coltext = 'Quantity'.
+  ls_further_details_fcat-scrtext_l = 'Quantity'.
+  ls_further_details_fcat-scrtext_m = 'Quantity'.
+  ls_further_details_fcat-scrtext_s = 'Quantity'.
+  APPEND ls_further_details_fcat TO lt_further_details_fcat.
+  CLEAR : ls_further_details_fcat.
+
+  ls_further_details_fcat-fieldname = 'UNIT'.
+  ls_further_details_fcat-tabname = 'YDP_SO_ITEM'.
+  ls_further_details_fcat-col_pos = 7.
+  ls_further_details_fcat-coltext = 'Unit'.
+  ls_further_details_fcat-scrtext_l = 'Unit'.
+  ls_further_details_fcat-scrtext_m = 'Unit'.
+  ls_further_details_fcat-scrtext_s = 'Unit'.
+  APPEND ls_further_details_fcat TO lt_further_details_fcat.
+  CLEAR : ls_further_details_fcat.
+
+  ls_further_details_fcat-fieldname = 'PRICE'.
+  ls_further_details_fcat-tabname = 'YDP_SO_ITEM'.
+  ls_further_details_fcat-col_pos = 8.
+  ls_further_details_fcat-coltext = 'Price'.
+  ls_further_details_fcat-scrtext_l = 'Price'.
+  ls_further_details_fcat-scrtext_m = 'Price'.
+  ls_further_details_fcat-scrtext_s = 'Price'.
+  APPEND ls_further_details_fcat TO lt_further_details_fcat.
+  CLEAR : ls_further_details_fcat.
+
+  ls_further_details_fcat-fieldname = 'CURRENCY'.
+  ls_further_details_fcat-tabname = 'YDP_SO_ITEM'.
+  ls_further_details_fcat-col_pos = 9.
+  ls_further_details_fcat-coltext = 'Currency'.
+  ls_further_details_fcat-scrtext_l = 'Currency'.
+  ls_further_details_fcat-scrtext_m = 'Currency'.
+  ls_further_details_fcat-scrtext_s = 'Currency'.
+  APPEND ls_further_details_fcat TO lt_further_details_fcat.
+  CLEAR : ls_further_details_fcat.
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form bp_popup_alv
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM bp_popup_alv .
+
+  PERFORM bp_further_character_fcat.
+
+  CREATE OBJECT w_popup_grid
+    EXPORTING
+*     i_structure_name =                  " structure
+      i_t_fieldcatalog = lt_further_details_fcat            " field catalog
+*     i_s_layout       =                  " Layout
+*     i_caption        =                  " Caption
+*     i_repid          =                  " ABAP Program: Current Main Program
+*     i_dynnr          =                  " ABAP Program: Number of Current Screen
+      i_left           = 300              " Left
+      i_top            = 300                " Top
+      i_height         = 500              " Height
+      i_width          = 950.         " Width
+
+  w_popup_grid->show_data( i_t_data = lt_bp_row_data ).
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form product_popup_alv
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM product_popup_alv .
+
+  PERFORM product_further_character_fcat.
+
+  CREATE OBJECT w_popup_grid
+    EXPORTING
+*     i_structure_name =                  " structure
+      i_t_fieldcatalog = lt_further_details_fcat            " field catalog
+*     i_s_layout       =                  " Layout
+*     i_caption        =                  " Caption
+*     i_repid          =                  " ABAP Program: Current Main Program
+*     i_dynnr          =                  " ABAP Program: Number of Current Screen
+      i_left           = 300              " Left
+      i_top            = 300                " Top
+      i_height         = 500              " Height
+      i_width          = 950.         " Width
+
+  w_popup_grid->show_data( i_t_data = lt_product_row_data ).
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form popup_box
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM popup_box.
+
+  CLEAR: ydp_so_header-bp_id.
+  CALL FUNCTION 'POPUP_TO_CONFIRM'
+    EXPORTING
+      titlebar              = 'Create New Sales Order'
+      text_question         = 'Do you want to create new one!'
+      text_button_1         = 'YES'
+      icon_button_1         = 'ICON_CHECKED'
+      text_button_2         = 'CANCEL'
+      icon_button_2         = 'ICON_CANCEL'
+      display_cancel_button = ' '
+*     POPUP_TYPE            = 'ICON_MESSAGE_ERROR'
+    IMPORTING
+      answer                = lv_answer.
+  IF lv_answer = 2.
+    LEAVE PROGRAM.
+  ENDIF.
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form display_new_alv
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM display_new_alv .
+  DATA : lo_handler TYPE REF TO lcl_handler.
+
+  ls_so_item-so_item = '1'.
+ls_so_item-created_on = sy-datum.
+ls_so_item-created_by = sy-uname.
+ls_so_item-changed_on = sy-datum.
+ls_so_item-changed_by = sy-uname.
+ls_so_item-so_id = ydp_so_header-so_id.
+
+  IF lo_cust_container IS NOT BOUND.
+    CREATE OBJECT lo_cust_container
+      EXPORTING
+*       parent                      =                  " Parent container
+        container_name              = 'CUST_ITEMS'           " Name of the Screen CustCtrl Name to Link Container To
+*       style                       =                  " Windows Style Attributes Applied to this Container
+*       lifetime                    = lifetime_default " Lifetime
+*       repid                       =                  " Screen to Which this Container is Linked
+*       dynnr                       =                  " Report To Which this Container is Linked
+*       no_autodef_progid_dynnr     =                  " Don't Autodefined Progid and Dynnr?
+      EXCEPTIONS
+        cntl_error                  = 1                " CNTL_ERROR
+        cntl_system_error           = 2                " CNTL_SYSTEM_ERROR
+        create_error                = 3                " CREATE_ERROR
+        lifetime_error              = 4                " LIFETIME_ERROR
+        lifetime_dynpro_dynpro_link = 5                " LIFETIME_DYNPRO_DYNPRO_LINK
+        OTHERS                      = 6.
+
+  ENDIF.
+
+  IF lo_alv_grid IS NOT BOUND.
+
+*    IF lt_so_item IS NOT INITIAL .
+
+    CREATE OBJECT lo_alv_grid
+      EXPORTING
+*       i_shellstyle      = 0                " Control Style
+*       i_lifetime        =                  " Lifetime
+        i_parent          = lo_cust_container         " Parent Container
+*       i_appl_events     = space            " Register Events as Application Events
+*       i_parentdbg       =                  " Internal, Do not Use
+*       i_applogparent    =                  " Container for Application Log
+*       i_graphicsparent  =                  " Container for Graphics
+*       i_name            =                  " Name
+*       i_fcat_complete   = space            " Boolean Variable (X=True, Space=False)
+*       o_previous_sral_handler =
+      EXCEPTIONS
+        error_cntl_create = 1                " Error when creating the control
+        error_cntl_init   = 2                " Error While Initializing Control
+        error_cntl_link   = 3                " Error While Linking Control
+        error_dp_create   = 4                " Error While Creating DataProvider Control
+        OTHERS            = 5.
+
+    endif.
+
+    PERFORM new_build_fcat.
+
+    CREATE OBJECT lo_handler.
+
+    SET HANDLER lo_handler->custom_toolbar_for_items FOR lo_alv_grid.
+
+    IF lt_so_item IS INITIAL.
+      ls_so_item-so_item = '1'.
+      APPEND ls_so_item to lt_so_item.
+    ENDIF.
+
+    SET HANDLER lo_handler->user_command_for_sales_order FOR lo_alv_grid.
+
+    lo_alv_grid->set_table_for_first_display(
+*      EXPORTING
+*        i_buffer_active               =                  " Buffering Active
+*        i_bypassing_buffer            =                  " Switch Off Buffer
+*        i_consistency_check           =                  " Starting Consistency Check for Interface Error Recognition
+*        i_structure_name              =                  " Internal Output Table Structure Name
+*        is_variant                    =                  " Layout
+*        i_save                        =                  " Save Layout
+*        i_default                     = 'X'              " Default Display Variant
+*        is_layout                     =                  " Layout
+*        is_print                      =                  " Print Control
+*        it_special_groups             =                  " Field Groups
+*        it_toolbar_excluding          =                  " Excluded Toolbar Standard Functions
+*        it_hyperlink                  =                  " Hyperlinks
+*        it_alv_graphics               =                  " Table of Structure DTC_S_TC
+*        it_except_qinfo               =                  " Table for Exception Quickinfo
+*        ir_salv_adapter               =                  " Interface ALV Adapter
+      CHANGING
+        it_outtab                     =      lt_so_item            " Output Table
+        it_fieldcatalog               =       lt_fcat        " Field Catalog
+*        it_sort                       =                  " Sort Criteria
+*        it_filter                     =                  " Filter Criteria
+      EXCEPTIONS
+        invalid_parameter_combination = 1                " Wrong Parameter
+        program_error                 = 2                " Program Errors
+        too_many_lines                = 3                " Too many Rows in Ready for Input Grid
+        OTHERS                        = 4
+    ).
+*    ENDIF.
+*  ELSE.
+    PERFORM build_fcat.
+
+    lo_alv_grid->set_frontend_fieldcatalog( it_fieldcatalog =  lt_fcat ).
+
+    lo_alv_grid->refresh_table_display( ).
+*  ENDIF.
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form new_build_fcat
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM new_build_fcat .
+  CLEAR lt_fcat.
+
+  ls_fcat-fieldname = 'SO_ITEM'.
+  ls_fcat-coltext = 'Sales Item'.
+  ls_fcat-scrtext_l = 'Sales Order Item'.
+  ls_fcat-scrtext_m = 'SaleOrd Item'.
+  ls_fcat-scrtext_s = 'SO item'.
+  APPEND ls_fcat TO lt_fcat.
+  CLEAR : ls_fcat.
+
+
+  ls_fcat-fieldname = 'PRD_ID'.
+  ls_fcat-coltext = 'Product ID'.
+  ls_fcat-scrtext_l = 'Product ID'.
+  ls_fcat-scrtext_m = 'Product ID'.
+  ls_fcat-scrtext_s = 'PRD ID'.
+  ls_fcat-edit = abap_true.
+  APPEND ls_fcat TO lt_fcat.
+  CLEAR : ls_fcat.
+
+  ls_fcat-fieldname = 'QUANTITY'.
+  ls_fcat-coltext = 'Quantity'.
+  ls_fcat-scrtext_l = 'Quantity'.
+  ls_fcat-scrtext_m = 'Quantity'.
+  ls_fcat-scrtext_s = 'Quantity'.
+  ls_fcat-edit = abap_true.
+  APPEND ls_fcat TO lt_fcat.
+  CLEAR : ls_fcat.
+
+  ls_fcat-fieldname = 'UNIT'.
+  ls_fcat-coltext = 'Unit'.
+  ls_fcat-scrtext_l = 'Unit'.
+  ls_fcat-scrtext_m = 'Unit'.
+  ls_fcat-scrtext_s = 'Unit'.
+  ls_fcat-edit = abap_true.
+  APPEND ls_fcat TO lt_fcat.
+  CLEAR : ls_fcat.
+
+  ls_fcat-fieldname = 'PRICE'.
+  ls_fcat-coltext = 'Price'.
+  ls_fcat-scrtext_l = 'Price'.
+  ls_fcat-scrtext_m = 'Price'.
+  ls_fcat-scrtext_s = 'Price'.
+  APPEND ls_fcat TO lt_fcat.
+  CLEAR : ls_fcat.
+
+  ls_fcat-fieldname = 'CURRENCY'.
+  ls_fcat-coltext = 'Currency'.
+  ls_fcat-scrtext_l = 'Currency'.
+  ls_fcat-scrtext_m = 'Currency'.
+  ls_fcat-scrtext_s = 'Currency'.
+  APPEND ls_fcat TO lt_fcat.
+  CLEAR : ls_fcat.
+
+  ls_fcat-fieldname = 'CREATED_ON'.
+  ls_fcat-coltext = 'Created On'.
+  ls_fcat-scrtext_l = 'Created On'.
+  ls_fcat-scrtext_m = 'Created On'.
+  ls_fcat-scrtext_s = 'Cret On'.
+  ls_fcat-edit = abap_true.
+  APPEND ls_fcat TO lt_fcat.
+  CLEAR : ls_fcat.
+
+  ls_fcat-fieldname = 'CREATED_BY'.
+  ls_fcat-coltext = 'Created By'.
+  ls_fcat-scrtext_l = 'Created By'.
+  ls_fcat-scrtext_m = 'Created By'.
+  ls_fcat-scrtext_s = 'Cret By'.
+  ls_fcat-edit = abap_true.
+  APPEND ls_fcat TO lt_fcat.
+  CLEAR : ls_fcat.
+
+  ls_fcat-fieldname = 'CHANGED_ON'.
+  ls_fcat-coltext = 'Changed On'.
+  ls_fcat-scrtext_l = 'Changed On'.
+  ls_fcat-scrtext_m = 'Cheanged On'.
+  ls_fcat-scrtext_s = 'Change On'.
+  ls_fcat-edit = abap_true.
+  APPEND ls_fcat TO lt_fcat.
+  CLEAR : ls_fcat.
+
+  ls_fcat-fieldname = 'CHANGED_BY'.
+  ls_fcat-coltext = 'Changed By'.
+  ls_fcat-scrtext_l = 'Changed By'.
+  ls_fcat-scrtext_m = 'Changed By'.
+  ls_fcat-scrtext_s = 'Change By'.
+  ls_fcat-edit = abap_true.
+  APPEND ls_fcat TO lt_fcat.
+  CLEAR : ls_fcat.
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form build_existes_fcat
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM build_existes_fcat .
+  CLEAR lt_fcat.
+
+  ls_fcat-fieldname = 'SO_ITEM'.
+  ls_fcat-coltext = 'Sales Item'.
+  ls_fcat-scrtext_l = 'Sales Order Item'.
+  ls_fcat-scrtext_m = 'SaleOrd Item'.
+  ls_fcat-scrtext_s = 'SO item'.
+  ls_fcat-hotspot = abap_true.
+  APPEND ls_fcat TO lt_fcat.
+  CLEAR : ls_fcat.
+
+
+  ls_fcat-fieldname = 'PRD_ID'.
+  ls_fcat-coltext = 'Product ID'.
+  ls_fcat-scrtext_l = 'Product ID'.
+  ls_fcat-scrtext_m = 'Product ID'.
+  ls_fcat-scrtext_s = 'PRD ID'.
+  ls_fcat-hotspot = abap_true.
+  APPEND ls_fcat TO lt_fcat.
+  CLEAR : ls_fcat.
+
+  ls_fcat-fieldname = 'QUANTITY'.
+  ls_fcat-coltext = 'Quantity'.
+  ls_fcat-scrtext_l = 'Quantity'.
+  ls_fcat-scrtext_m = 'Quantity'.
+  ls_fcat-scrtext_s = 'Quantity'.
+  APPEND ls_fcat TO lt_fcat.
+  CLEAR : ls_fcat.
+
+  ls_fcat-fieldname = 'UNIT'.
+  ls_fcat-coltext = 'Unit'.
+  ls_fcat-scrtext_l = 'Unit'.
+  ls_fcat-scrtext_m = 'Unit'.
+  ls_fcat-scrtext_s = 'Unit'.
+  APPEND ls_fcat TO lt_fcat.
+  CLEAR : ls_fcat.
+
+  ls_fcat-fieldname = 'PRICE'.
+  ls_fcat-coltext = 'Price'.
+  ls_fcat-scrtext_l = 'Price'.
+  ls_fcat-scrtext_m = 'Price'.
+  ls_fcat-scrtext_s = 'Price'.
+  APPEND ls_fcat TO lt_fcat.
+  CLEAR : ls_fcat.
+
+  ls_fcat-fieldname = 'CURRENCY'.
+  ls_fcat-coltext = 'Currency'.
+  ls_fcat-scrtext_l = 'Currency'.
+  ls_fcat-scrtext_m = 'Currency'.
+  ls_fcat-scrtext_s = 'Currency'.
+  APPEND ls_fcat TO lt_fcat.
+  CLEAR : ls_fcat.
+
+  ls_fcat-fieldname = 'CREATED_ON'.
+  ls_fcat-coltext = 'Created On'.
+  ls_fcat-scrtext_l = 'Created On'.
+  ls_fcat-scrtext_m = 'Created On'.
+  ls_fcat-scrtext_s = 'Cret On'.
+  APPEND ls_fcat TO lt_fcat.
+  CLEAR : ls_fcat.
+
+  ls_fcat-fieldname = 'CREATED_BY'.
+  ls_fcat-coltext = 'Created By'.
+  ls_fcat-scrtext_l = 'Created By'.
+  ls_fcat-scrtext_m = 'Created By'.
+  ls_fcat-scrtext_s = 'Cret By'.
+  APPEND ls_fcat TO lt_fcat.
+  CLEAR : ls_fcat.
+
+  ls_fcat-fieldname = 'CHANGED_ON'.
+  ls_fcat-coltext = 'Changed On'.
+  ls_fcat-scrtext_l = 'Changed On'.
+  ls_fcat-scrtext_m = 'Cheanged On'.
+  ls_fcat-scrtext_s = 'Change On'.
+  APPEND ls_fcat TO lt_fcat.
+  CLEAR : ls_fcat.
+
+  ls_fcat-fieldname = 'CHANGED_BY'.
+  ls_fcat-coltext = 'Changed By'.
+  ls_fcat-scrtext_l = 'Changed By'.
+  ls_fcat-scrtext_m = 'Changed By'.
+  ls_fcat-scrtext_s = 'Change By'.
+  APPEND ls_fcat TO lt_fcat.
+  CLEAR : ls_fcat.
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form add_lines
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM add_lines .
+
+  SORT lt_so_item DESCENDING.
+
+  TRY .
+      DATA(lv_line_item) = lt_so_item[ 1 ]-so_item.
+
+      ls_so_item-so_item = lv_line_item + 1.
+      APPEND ls_so_item TO lt_so_item.
+      sort lt_so_item.
+    CATCH cx_sy_itab_line_not_found.
+      MESSAGE 'Error in read statement' TYPE 'S' DISPLAY LIKE 'E'.
+  ENDTRY.
+
+  lo_alv_grid->refresh_table_display( ).
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form delete_lines
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM delete_lines .
+SORT lt_so_item DESCENDING.
+
+  TRY .
+      DATA(lv_line_item) = lt_so_item[ 1 ]-so_item.
+
+      ls_so_item-so_item = lv_line_item + 1.
+      IF lv_line_item > 1.
+        DELETE lt_so_item INDEX 1.
+      sort lt_so_item.
+      else .
+        MESSAGE 'First line cannot be deleted' TYPE 'S' DISPLAY LIKE 'E'.
+      ENDIF.
+
+    CATCH cx_sy_itab_line_not_found.
+      MESSAGE 'Error in read statement' TYPE 'S' DISPLAY LIKE 'E'.
+  ENDTRY.
+
+  lo_alv_grid->refresh_table_display( ).
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form calculate_price
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM calculate_price .
+
+ "---------------------------------------------------------------------------
+* IF lt_so_item is not INITIAL.
+*  SELECT prod_id, price, currency
+*    from ydp_product
+*    into TABLE @data(lt_product_price)
+*    FOR ALL ENTRIES IN @lt_so_item
+*    WHERE prod_id eq @lt_so_item-prd_id.
+*
+*    if sy-subrc eq 0.
+*
+*      SELECt * from ydp_prod_stock into TABLE lt_prod_stock.
+*
+*         IF sy-subrc eq 0.
+*
+*            SELECT prod_id, AVAILABLE_QTY, unit from ydp_prod_stock into TABLE @data(lt_product_qty).
+*
+*              if sy-subrc eq 0.
+*                  LOOP AT lt_so_item ASSIGNING FIELD-SYMBOL(<fs_so_item>).
+*                       DATA(ls_price) = lt_product_price[ prod_id = <fs_so_item>-prd_id ].
+*
+*                              LOOP AT lt_prod_stock ASSIGNING FIELD-SYMBOL(<fs_prod_stock>).
+*                                DATA(ls_qty) = lt_product_qty[ prod_id = <fs_so_item>-prd_id ].
+*                                 if ls_qty-available_qty > <fs_so_item>-quantity.
+*                                   TRY .
+**                                     DATA(ls_price) = lt_product_price[ prod_id = <fs_so_item>-prd_id ].
+*                                        TRY .
+**                                          DATA(ls_qty) = lt_product_qty[ prod_id = <fs_so_item>-prd_id ].
+*                                          <fs_prod_stock>-available_qty = ls_qty-available_qty - <fs_so_item>-quantity.
+*                                          ls_prod_stock-available_qty = <fs_prod_stock>-available_qty.
+*                                          modify ydp_prod_stock from ls_prod_stock.
+*                                        CATCH cx_sy_itab_line_not_found.
+*
+*                                        ENDTRY.
+*                                    <fs_so_item>-price = ls_price-price * <fs_so_item>-quantity.
+*                                    <fs_so_item>-currency = ls_price-currency.
+*                                  CATCH cx_sy_itab_line_not_found.
+*
+*                                  ENDTRY.
+*                                  else.
+*                                    MESSAGE 'Particular Quantity is not available' TYPE 'S' DISPLAY LIKE 'E'.
+*                                  endif.
+*                              ENDLOOP.
+*                      ENDLOOP.
+*                      lo_alv_grid->refresh_table_display( ).
+*
+*                    endif.
+*
+*             endif.
+*         ENDIF.
+*
+*ENDIF.
+
+
+
+
+*--------------------------------------------------------------------------------------------->
+IF lt_so_item is not INITIAL.
+  SELECT prod_id, price, currency
+    from ydp_product
+    into TABLE @data(lt_product_price)
+    FOR ALL ENTRIES IN @lt_so_item
+    WHERE prod_id eq @lt_so_item-prd_id.
+
+    IF sy-subrc eq 0.
+      LOOP AT lt_so_item ASSIGNING FIELD-SYMBOL(<fs_so_item>).
+        TRY .
+          DATA(ls_price) = lt_product_price[ prod_id = <fs_so_item>-prd_id ].
+
+          <fs_so_item>-price = ls_price-price * <fs_so_item>-quantity.
+          <fs_so_item>-currency = ls_price-currency.
+        CATCH cx_sy_itab_line_not_found.
+
+        ENDTRY.
+      ENDLOOP.
+
+
+      lo_alv_grid->refresh_table_display( ).
+
+    ENDIF.
+
+ENDIF.
+"------------------------------------------------------------------------------------------------>
+
+
+
+
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form insert_into_database
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM insert_into_database .
+
+   MODIFY ydp_so_header from ydp_so_header.
+
+*    SELECt * from ydp_prod_stock into TABLE lt_prod_stock.
+
+*       SELECT prod_id, AVAILABLE_QTY, unit from ydp_prod_stock into TABLE @data(lt_product_qty).
+*
+*        IF sy-subrc eq 0.
+*         LOOP AT lt_prod_stock ASSIGNING FIELD-SYMBOL(<fs_prod_stock>).
+*          TRY .
+*            DATA(ls_qty) = lt_product_qty[ prod_id = <fs_prod_stock>-prod_id ].
+*            <fs_prod_stock>-available_qty = ls_qty-available_qty - ls_so_item-quantity.
+*            modify ydp_prod_stock from <fs_prod_stock>.
+"-------------------------------Original code----------------------------------->
+*        IF lt_so_item is NOT INITIAL.
+*          try.
+*           MODIFY ydp_so_item from TABLE lt_so_item.
+*           IF sy-subrc eq 0.
+*              MESSAGE 'Data Modified Successfully' TYPE 'S'.
+*           else.
+*              ROLLBACK WORK.
+*           ENDIF.
+*          CATCH cx_sy_itab_line_not_found.
+*
+*          ENDTRY.
+*          lo_alv_grid->refresh_table_display( ).
+*        ENDIF.
+"------------------------------------------------------------------------------------>
+
+SELECt * from ydp_prod_stock into TABLE lt_prod_stock.
+  IF sy-subrc eq 0.
+    IF lt_so_item IS NOT INITIAL.
+    LOOP AT lt_so_item ASSIGNING FIELD-SYMBOL(<fs_so_item>).
+      TRY .
+        ASSIGN lt_prod_stock[ prod_id = <fs_so_item>-prd_id ] to FIELD-SYMBOL(<fs_qty>).
+*        LOOP AT lt_prod_stock ASSIGNING FIELD-SYMBOL(<fs_prod_stock>).
+        IF <fs_qty> is ASSIGNED.
+          <fs_qty>-available_qty = <fs_qty>-available_qty - <fs_so_item>-quantity.
+        ENDIF.
+*        ENDLOOP.
+      CATCH cx_sy_itab_line_not_found.
+
+      ENDTRY.
+    ENDLOOP.
+    MODIFY ydp_prod_stock from TABLE lt_prod_stock.
+    IF sy-subrc eq 0.
+      MODIFY ydp_so_item FROM TABLE lt_so_item.
+      IF sy-subrc eq 0.
+        MESSAGE 'Data Inserted' TYPE 'S'.
+      else.
+        ROLLBACK WORK.
+        MESSAGE 'Data could not be inserted' TYPE 'S' DISPLAY LIKE 'E'.
+      ENDIF.
+    ELSE.
+        MESSAGE 'Data could not be inserted' TYPE 'S' DISPLAY LIKE 'E'.
+    ENDIF.
+    ENDIF.
+  ENDIF.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*       SELECT prod_id, AVAILABLE_QTY, unit from ydp_prod_stock into TABLE @data(lt_product_qty).
+
+*        IF sy-subrc eq 0.
+*         LOOP AT lt_prod_stock ASSIGNING FIELD-SYMBOL(<fs_prod_stock>).
+*          TRY .
+*            DATA(ls_qty) = lt_product_qty[ prod_id = <fs_prod_stock>-prod_id ].
+*            <fs_prod_stock>-available_qty = ls_qty-available_qty - ls_so_item-quantity.
+*            modify ydp_prod_stock from <fs_prod_stock>.
+
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form check_roles
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM check_roles USING iv_role TYPE char10 changing cv_approve TYPE xfeld .
+
+*DATA(ls_role) = lt_roles[ role = iv_role ].
+IF line_exists( lt_roles[ role = iv_role active = 'X'] ).
+*  IF lt_roles-active eq 'X'.
+     cv_approve = abap_true.
+*  ENDIF.
+
+ELSE.
+  cv_approve = abap_false.
+ENDIF.
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form build_admin_fcat
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM build_admin_fcat .
+clear: lt_admin_fcat.
+
+  ls_admin_fcat-fieldname = 'USER_ID'.
+  ls_admin_fcat-tabname = 'YDP_ROLE_ASSIGN'.
+  ls_admin_fcat-col_pos = 1.
+  ls_admin_fcat-coltext = 'User ID'.
+  ls_admin_fcat-scrtext_l = 'User ID'.
+  ls_admin_fcat-scrtext_m = 'User ID'.
+  ls_admin_fcat-scrtext_s = 'User ID'.
+  APPEND ls_admin_fcat TO lt_admin_fcat.
+  CLEAR : ls_admin_fcat.
+
+  ls_admin_fcat-fieldname = 'ROLE'.
+  ls_admin_fcat-tabname = 'YDP_ROLE_ASSIGN'.
+  ls_admin_fcat-col_pos = 2.
+  ls_admin_fcat-coltext = 'Role'.
+  ls_admin_fcat-scrtext_l = 'Role'.
+  ls_admin_fcat-scrtext_m = 'Role'.
+  ls_admin_fcat-scrtext_s = 'Role'.
+  APPEND ls_admin_fcat TO lt_admin_fcat.
+  CLEAR : ls_admin_fcat.
+
+  ls_admin_fcat-fieldname = 'ACTIVE'.
+  ls_admin_fcat-tabname = 'YDP_ROLE_ASSIGN'.
+  ls_admin_fcat-col_pos = 3.
+  ls_admin_fcat-coltext = 'Active'.
+  ls_admin_fcat-scrtext_l = 'Active'.
+  ls_admin_fcat-scrtext_m = 'Active'.
+  ls_admin_fcat-scrtext_s = 'Active'.
+  ls_admin_fcat-checkbox = 'X'.
+  ls_admin_fcat-edit = 'X'.
+  APPEND ls_admin_fcat TO lt_admin_fcat.
+  CLEAR : ls_admin_fcat.
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form check_change_data
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM check_change_data .
+ IF lo_admin_alv_grid is BOUND.
+   lo_admin_alv_grid->check_changed_data(
+     IMPORTING
+       e_valid   =       DATA(lv_valid)           " Entries are Consistent
+*     CHANGING
+*       c_refresh = 'X'              " Character Field of Length 1
+   ).
+ ENDIF.
+
+ IF sy-ucomm eq 'SAVE'.
+   IF lv_valid eq 'X'.
+     MODIFY ydp_role_assign FROM TABLE lt_roles_all.
+   IF sy-subrc eq 0.
+     MESSAGE 'Saved' TYPE 'S'.
+   ELSE.
+     MESSAGE 'Could not be Saved' TYPE 'S' DISPLAY LIKE 'E'.
+   ENDIF.
+   ENDIF.
+ ENDIF.
+ENDFORM.

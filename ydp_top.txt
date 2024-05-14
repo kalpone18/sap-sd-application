@@ -1,0 +1,180 @@
+*&---------------------------------------------------------------------*
+*& Include          YDP_SD_MANAGEMENT_TOP
+*&---------------------------------------------------------------------*
+TABLES: ydp_product, ydp_bp, ydp_so_item, ydp_so_header, ydp_users, ydp_prod_stock,ydp_role, ydp_role_assign.
+
+CONTROLS: tabctrl_sd TYPE TABSTRIP.
+
+DATA : lv_table_name TYPE char17.
+
+DATA : lv_user_id TYPE char15,
+       lv_password TYPE char15.
+
+DATA: lv_selected_table TYPE char16.
+
+DATA : lv_previous_table TYPE char16,
+       lv_current_table  TYPE char16.
+
+DATA : lv_subsc  TYPE sy-dynnr,
+       lv_subsc1 TYPE sy-dynnr.
+
+DATA: lo_obj_prod TYPE REF TO ydp_cl_products.
+DATA: lo_obj_bp TYPE REF TO ydp_cl_bp.
+
+DATA : lo_cust_container TYPE REF TO cl_gui_custom_container.
+DATA : lo_alv_grid TYPE REF TO cl_gui_alv_grid.
+
+DATA : lo_mu_cust_container TYPE REF TO cl_gui_custom_container.
+DATA : lo_mu_alv_grid TYPE REF TO cl_gui_alv_grid.
+
+DATA : lo_analytics_cust_container TYPE REF TO cl_gui_custom_container,
+       lo_analytics_alv_grid       TYPE REF TO cl_gui_alv_grid.
+
+DATA : lo_admin_cust_container TYPE REF TO cl_gui_custom_container,
+       lo_admin_alv_grid       TYPE REF TO cl_gui_alv_grid.
+
+DATA : w_popup_grid TYPE REF TO cl_rs_alv_grid_popup.
+
+DATA : lt_fcat TYPE lvc_t_fcat,
+       ls_fcat LIKE LINE OF lt_fcat.
+
+DATA : lt_mu_fcat TYPE lvc_t_fcat,
+       ls_mu_fcat LIKE LINE OF lt_mu_fcat.
+
+DATA: lt_bp_analytics_fcat TYPE lvc_t_fcat,
+      ls_bp_analytics_fcat LIKE LINE OF lt_bp_analytics_fcat.
+
+DATA : lt_product_analytics_fcat TYPE lvc_t_fcat,
+       ls_product_analytics_fcat LIKE LINE OF lt_product_analytics_fcat.
+
+DATA : lt_further_details_fcat TYPE  lvc_t_fcat,
+       ls_further_details_fcat LIKE LINE OF lt_further_details_fcat.
+
+DATA : lt_admin_fcat TYPE lvc_t_fcat,
+       ls_admin_fcat LIKE LINE OF lt_admin_fcat.
+
+DATA: lo_obj_so TYPE REF TO ydp_sales_order_class.
+
+DATA: name  TYPE vrm_id,
+      list  TYPE vrm_values,
+      value LIKE LINE OF list.
+
+DATA : file_path TYPE rlgrap-filename.
+
+DATA : lt_tab TYPE STANDARD TABLE OF alsmex_tabline.
+
+DATA : ls_prod TYPE ydp_product.
+DATA : lt_prod TYPE STANDARD TABLE OF ydp_product.
+
+DATA : ls_bp TYPE ydp_bp,
+       lt_bp TYPE STANDARD TABLE OF ydp_bp.
+
+DATA : ls_so_header TYPE ydp_so_header,
+       lt_so_header TYPE STANDARD TABLE OF ydp_so_header.
+
+DATA : ls_so_item TYPE ydp_so_item,
+       lt_so_item TYPE STANDARD TABLE OF ydp_so_item.
+
+TYPES : tt_sy_ucomm TYPE TABLE OF sy-ucomm.
+
+TYPES : BEGIN OF ty_final_data,
+          value(1000) TYPE c,
+        END OF ty_final_data.
+
+DATA : lt_final_data TYPE STANDARD TABLE OF ty_final_data.
+
+DATA: s_file TYPE string.
+
+DATA: radio_xlsx TYPE c,
+      radio_csv  TYPE c.
+
+DATA: lv_string TYPE string,
+      lv_format TYPE string.
+
+DATA: gr_strucdescr  TYPE REF TO cl_abap_structdescr,
+      gr_tabledescr  TYPE REF TO cl_abap_tabledescr,
+      ref_strucdescr TYPE REF TO cl_abap_structdescr,
+      ref_element    TYPE REF TO cl_abap_elemdescr.
+
+DATA: lr_table_line TYPE REF TO data,
+      lr_table      TYPE REF TO data.
+
+FIELD-SYMBOLS: <ls_table_line> TYPE any,
+               <lt_table>      TYPE ANY TABLE.
+
+DATA: lt_file_fields TYPE TABLE OF name_feld.
+
+*DATA: lt_components LIKE TABLE OF abap_compdescr WITH HEADER LINE.
+DATA: lt_components TYPE fieldname.
+
+DATA : lv_error_flag TYPE xfeld.
+
+TYPES: BEGIN OF ty_bp_analytics,
+         bp_id    LIKE ydp_bp-bp_id,
+         bp_name  LIKE ydp_bp-bp_name,
+         price    LIKE ydp_so_item-price,
+         currency LIKE ydp_so_item-currency,
+       END OF ty_bp_analytics.
+
+DATA : lt_bp_analytics TYPE TABLE OF ty_bp_analytics.
+
+TYPES: BEGIN OF ty_product_analytics,
+         prod_id   LIKE ydp_product-prod_id,
+         prod_name LIKE ydp_product-prod_name,
+         price     LIKE ydp_so_item-price,
+         quantity  LIKE ydp_so_item-quantity,
+         currency  LIKE ydp_so_item-currency,
+       END OF ty_product_analytics.
+
+DATA : lt_product_analytics TYPE TABLE OF ty_product_analytics.
+
+DATA : lv_current_btn  TYPE sy-ucomm,
+       lv_previous_btn TYPE sy-ucomm.
+
+DATA : lt_toolbar_exclude TYPE ui_functions,
+       ls_toolbar_exclude LIKE LINE OF lt_toolbar_exclude.
+
+TYPES : BEGIN OF ty_bp_row_data,
+          so_id      LIKE ydp_so_item-so_id,
+          so_item    LIKE ydp_so_item-so_item,
+          prod_id    LIKE ydp_product-prod_id,
+          prod_name  LIKE ydp_product-prod_name,
+          quantity   LIKE ydp_so_item-quantity,
+          unit       LIKE ydp_so_item-unit,
+          price      LIKE ydp_so_item-price,
+          currency   LIKE ydp_so_item-currency,
+          created_on LIKE ydp_so_item-created_on,
+          created_by LIKE ydp_so_item-created_by,
+          changed_on LIKE ydp_so_item-changed_on,
+          changed_by LIKE ydp_so_item-changed_by,
+        END OF ty_bp_row_data.
+
+DATA : lt_bp_row_data TYPE TABLE OF ty_bp_row_data.
+
+TYPES: BEGIN OF ty_product_row_data,
+         prod_name LIKE ydp_product-prod_name,
+         bp_id     LIKE ydp_bp-bp_id,
+         bp_name   LIKE ydp_bp-bp_name,
+         so_id     LIKE ydp_so_item-so_id,
+         so_item   LIKE ydp_so_item-so_item,
+         quantity  LIKE ydp_so_item-quantity,
+         unit      LIKE ydp_so_item-unit,
+         price     LIKE ydp_so_item-price,
+         currency  LIKE ydp_so_item-currency,
+       END OF ty_product_row_data.
+
+DATA : lt_product_row_data TYPE STANDARD TABLE OF ty_product_row_data.
+
+DATA: lv_answer TYPE char1.
+
+DATA: lv_no_data TYPE xfeld.
+
+DATA : lt_roles TYPE STANDARD TABLE OF ydp_role_assign,
+       ls_roles TYPE ydp_role_assign.
+
+DATA : lt_roles_all TYPE STANDARD TABLE OF ydp_role_assign.
+
+DATA : lt_users TYPE STANDARD TABLE OF ydp_users.
+
+data :lt_prod_stock TYPE STANDARD TABLE OF ydp_prod_stock,
+      ls_prod_stock TYPE ydp_prod_stock.
